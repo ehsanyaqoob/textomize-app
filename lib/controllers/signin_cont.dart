@@ -1,6 +1,6 @@
 import 'package:textomize/core/exports.dart';
 
-import '../modules/features/home/home_view.dart';
+import '../modules/features/home/navbar/NavBar.dart';
 class SignInController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -29,7 +29,7 @@ class SignInController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
 
-              Get.to(HomeView());
+              Get.to(NavBarNavigation());
 
     });
   }

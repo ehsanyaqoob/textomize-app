@@ -1,7 +1,16 @@
 import 'package:flutter/services.dart';
 import 'package:textomize/core/exports.dart';
+import 'package:textomize/modules/features/home/tools/all_tools.dart';
+import 'package:textomize/modules/features/home/tools/compress_pdf.dart';
+import 'package:textomize/modules/features/home/tools/e_sign_pdf.dart';
+import 'package:textomize/modules/features/home/tools/merge_pdf.dart';
+import 'package:textomize/modules/features/home/tools/protect_pdf.dart';
 
 import 'dart:async';
+
+import 'package:textomize/modules/features/home/tools/scan_qr_code.dart';
+import 'package:textomize/modules/features/home/tools/split_pdf.dart';
+import 'package:textomize/modules/features/home/tools/watermark_view.dart';
 
 class ProfileController extends GetxController {
   var name = ''.obs;
@@ -26,6 +35,7 @@ class ProfileController extends GetxController {
         dob.value.isNotEmpty;
   }
 }
+
 
 /// Checkbox state variables
 bool rememberMe = false;
@@ -56,6 +66,46 @@ final TextEditingController confirmNewPasswordController =
     TextEditingController();
 final TextEditingController nameController = TextEditingController();
 final TextEditingController phoneController = TextEditingController();
+
+/// for home view tools items 
+/// 
+final List<Map<String, dynamic>> tools = [
+  {'label': 'Scan Code', 'icon': Icons.qr_code, 'view': ScanQrCodeView()},
+  {'label': 'Watermark', 'icon': Icons.water, 'view': WaterMarkView()},
+  {'label': 'eSign PDF', 'icon': Icons.edit, 'view': ESignPDFView()},
+  {'label': 'Split PDF', 'icon': Icons.splitscreen, 'view': SplitPdfView()},
+  {'label': 'Merge PDF', 'icon': Icons.qr_code, 'view': MergePDFView()},
+  {'label': 'Protect PDF', 'icon': Icons.water, 'view': ProtectPDFView()},
+  {'label': 'Compress PDF', 'icon': Icons.edit, 'view': CompressPDFView()},
+  {'label': 'All Tools', 'icon': Icons.splitscreen, 'view': AllToolsView()},
+];
+final List<Color> appColors = [
+  Color(0xFFE57373),
+  Color(0xFF81C784),
+  Color(0xFF64B5F6),
+  Color(0xFFFFD54F),
+  Color(0xFFBA68C8),
+  Color(0xFF4DB6AC),
+  Color(0xFFFF8A65),
+  Color(0xFFAED581),
+];
+
+
+
+  final List<Map<String, String>> recentFiles = [
+    {
+      'title': 'Job Application Letter',
+      'date': '12/30/2023 09:41',
+    },
+    {
+      'title': 'Requirements Document',
+      'date': '12/29/2023 10:20',
+    },
+    {
+      'title': 'Recommendation Letter',
+      'date': '12/28/2023 14:56',
+    },
+  ];
 
 final List<String> designationType = [
   'Inspecter',

@@ -18,6 +18,7 @@ dependencies:
   flutter_svg: ^2.0.16
   smooth_page_indicator: ^1.2.0+3
   flutter_spinkit: ^5.2.1
+  shimmer: ^3.0.0
 
 
 dev_dependencies:
