@@ -17,7 +17,10 @@ class _AppViewState extends State<AppView> {
             appBarTheme: AppBarTheme(
               backgroundColor: AppColors.white
             )
+            
           ),
+          title: 'Textomize',
+          
           home: SplashScreen(),
         );
       },

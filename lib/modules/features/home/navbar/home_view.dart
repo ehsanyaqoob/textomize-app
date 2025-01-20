@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:textomize/core/exports.dart';
-
+import 'package:textomize/widgets/simplifyText.dart';
+import '../../../../controllers/controllers.dart';
 import '../../../../core/constatnts.dart';
-import '../recent_files/recent_files.dart';
+import '../../../../models/tool_model.dart';
 import '../tools/tools_section.dart';
 
 class HomeView extends StatefulWidget {
@@ -11,30 +13,96 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: isLoading ? _buildShimmerEffect() : _buildHomeContent(),
+    );
+  }
+
+  Widget _buildShimmerEffect() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _shimmerBox(height: 200, width: double.infinity),
+          SizedBox(height: 16),
+          _shimmerBox(height: 100, width: double.infinity),
+          SizedBox(height: 16),
+          _shimmerGrid(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHomeContent() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 16.h),
-          Shimmer.fromColors(
+          SizedBox(height: 16),
+          ToolsSection(
+            tools: tools.map((tool) => Tool.fromMap(tool)).toList(),
+          ),
+          SizedBox(height: 20),
+          RecentFilesSection(recentFiles: recentFiles),
+        ],
+      ),
+    );
+  }
+
+  Widget _shimmerBox({required double height, required double width}) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        height: height,
+        width: width,
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+    );
+  }
+
+  Widget _shimmerGrid() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          childAspectRatio: 1.0,
+        ),
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
             child: Container(
-              height: 200.h,
-              margin: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          ToolsSection(),
-          SizedBox(height: 20),
-          RecentFilesSection(recentFiles: recentFiles),
-        ],
+          );
+        },
       ),
     );
   }
@@ -69,7 +137,7 @@ class RecentFilesSection extends StatelessWidget {
           SizedBox(height: 10.0),
           ListView.builder(
             shrinkWrap: true,
-            // physics: NeverScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             itemCount: recentFiles.length,
             itemBuilder: (context, index) {
               final file = recentFiles[index];

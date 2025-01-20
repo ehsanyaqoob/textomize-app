@@ -14,7 +14,8 @@ class simplifyText extends Text {
     textDecorationStyle,
     Color? decorationColor,
     int? maxlines,
-    String? font
+    String? font,
+    TextOverflow? overflow,
   }) : assert(text != null, "Text is required"),
         super(
         text!,

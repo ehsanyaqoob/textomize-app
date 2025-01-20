@@ -1,4 +1,3 @@
-
 import 'package:textomize/core/exports.dart';
 
 class PremiumFeatureCard extends StatelessWidget {
@@ -34,12 +33,12 @@ class PremiumFeatureCard extends StatelessWidget {
             height: 50.h,
             width: 50.h,
             decoration: BoxDecoration(
-              color: Colors.amber.withOpacity(0.2),
+              color: AppColors.primaryColor.withOpacity(0.2),
               shape: BoxShape.circle,
             ),
             child: const Icon(
               Icons.document_scanner,
-              color: Colors.amber,
+              color: AppColors.primaryColor,
               size: 30,
             ),
           ),

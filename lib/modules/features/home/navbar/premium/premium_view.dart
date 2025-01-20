@@ -67,7 +67,6 @@ class _PremiumViewState extends State<PremiumView> {
                   ),
                   const SizedBox(height: 16),
                   SimplifyButton(title: 'Upgrade Now', onTap: (){},
-                  
                   fillColor: true,)
                 ],
               ),

@@ -36,6 +36,17 @@ class ProfileController extends GetxController {
   }
 }
 
+final List<Map<String, dynamic>> tools = [
+  {'label': 'Scan Code', 'icon': Icons.qr_code, 'view': ScanQrCodeView()},
+  {'label': 'Watermark', 'icon': Icons.water, 'view': WaterMarkView()},
+  {'label': 'eSign PDF', 'icon': Icons.edit, 'view': ESignPDFView()},
+  {'label': 'Split PDF', 'icon': Icons.splitscreen, 'view': SplitPdfView()},
+  {'label': 'Merge PDF', 'icon': Icons.merge_type, 'view': MergePDFView()},
+  {'label': 'Protect PDF', 'icon': Icons.lock, 'view': ProtectPDFView()},
+  {'label': 'Compress PDF', 'icon': Icons.compress, 'view': CompressPDFView()},
+  {'label': 'All Tools', 'icon': Icons.grid_view, 'view': AllToolsView()},
+];
+
 
 /// Checkbox state variables
 bool rememberMe = false;
@@ -67,18 +78,7 @@ final TextEditingController confirmNewPasswordController =
 final TextEditingController nameController = TextEditingController();
 final TextEditingController phoneController = TextEditingController();
 
-/// for home view tools items 
-/// 
-final List<Map<String, dynamic>> tools = [
-  {'label': 'Scan Code', 'icon': Icons.qr_code, 'view': ScanQrCodeView()},
-  {'label': 'Watermark', 'icon': Icons.water, 'view': WaterMarkView()},
-  {'label': 'eSign PDF', 'icon': Icons.edit, 'view': ESignPDFView()},
-  {'label': 'Split PDF', 'icon': Icons.splitscreen, 'view': SplitPdfView()},
-  {'label': 'Merge PDF', 'icon': Icons.qr_code, 'view': MergePDFView()},
-  {'label': 'Protect PDF', 'icon': Icons.water, 'view': ProtectPDFView()},
-  {'label': 'Compress PDF', 'icon': Icons.edit, 'view': CompressPDFView()},
-  {'label': 'All Tools', 'icon': Icons.splitscreen, 'view': AllToolsView()},
-];
+
 final List<Color> appColors = [
   Color(0xFFE57373),
   Color(0xFF81C784),

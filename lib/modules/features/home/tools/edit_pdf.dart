@@ -1,18 +1,18 @@
 import 'package:textomize/core/exports.dart';
 
-class MergePDFView extends StatefulWidget {
-  const MergePDFView({super.key});
+class EditPDFView extends StatefulWidget {
+  const EditPDFView({super.key});
 
   @override
-  State<MergePDFView> createState() => _MergePDFViewState();
+  State<EditPDFView> createState() => _EditPDFViewState();
 }
 
-class _MergePDFViewState extends State<MergePDFView> {
+class _EditPDFViewState extends State<EditPDFView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Merge PDFs',
+        title: 'Edit PDF',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -20,7 +20,7 @@ class _MergePDFViewState extends State<MergePDFView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             simplifyText(
-              text: 'Merge multiple PDF files into one document',
+              text: 'Edit your PDF files with ease',
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
               color: AppColors.primaryColor,
@@ -35,7 +35,7 @@ class _MergePDFViewState extends State<MergePDFView> {
               ),
               child: Center(
                 child: Icon(
-                  Icons.merge_type,
+                  Icons.edit,
                   size: 60.0,
                   color: AppColors.primaryColor,
                 ),
@@ -43,13 +43,13 @@ class _MergePDFViewState extends State<MergePDFView> {
             ),
             SizedBox(height: 30.0),
             simplifyText(
-              text: 'Upload your PDFs to merge them.',
+              text: 'Upload your PDF to start editing.',
               fontSize: 16.0,
               color: Colors.grey[600],
             ),
             SizedBox(height: 30.0),
             SimplifyButton(
-              title: 'Upload PDFs',
+              title: 'Upload PDF',
               onTap: () {
                 // Add your logic here
               },
@@ -57,7 +57,7 @@ class _MergePDFViewState extends State<MergePDFView> {
             ),
             SizedBox(height: 25.0),
             simplifyText(
-              text: 'You can rearrange pages and select order.',
+              text: 'Make changes such as text editing, adding annotations, and more.',
               fontSize: 14.0,
               color: Colors.grey[600],
             ),
@@ -66,13 +66,30 @@ class _MergePDFViewState extends State<MergePDFView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.reorder,
+                  Icons.text_fields,
                   size: 20.0,
                   color: Colors.grey[600],
                 ),
                 SizedBox(width: 5.0),
                 simplifyText(
-                  text: 'Rearrange Pages',
+                  text: 'Text Editing',
+                  fontSize: 14.0,
+                  color: Colors.grey[600],
+                ),
+              ],
+            ),
+            SizedBox(height: 15.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.insert_comment,
+                  size: 20.0,
+                  color: Colors.grey[600],
+                ),
+                SizedBox(width: 5.0),
+                simplifyText(
+                  text: 'Add Annotations',
                   fontSize: 14.0,
                   color: Colors.grey[600],
                 ),
