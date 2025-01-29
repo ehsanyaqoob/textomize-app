@@ -1,7 +1,4 @@
 import 'package:textomize/core/exports.dart';
-import 'package:textomize/widgets/simplifyButton.dart';
-
-import '../../../controllers/controllers.dart';
 class OtpView extends StatefulWidget {
   // final String cnic;  // Get CNIC and Phone from the previous screen
   // final String phone;

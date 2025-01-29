@@ -1,6 +1,7 @@
 import 'package:textomize/core/exports.dart';
 
 import '../modules/features/home/navbar/NavBar.dart';
+
 class SignInController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();

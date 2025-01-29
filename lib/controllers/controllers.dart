@@ -1,16 +1,14 @@
 import 'package:flutter/services.dart';
 import 'package:textomize/core/exports.dart';
-import 'package:textomize/modules/features/home/tools/all_tools.dart';
-import 'package:textomize/modules/features/home/tools/compress_pdf.dart';
-import 'package:textomize/modules/features/home/tools/e_sign_pdf.dart';
-import 'package:textomize/modules/features/home/tools/merge_pdf.dart';
-import 'package:textomize/modules/features/home/tools/protect_pdf.dart';
-
-import 'dart:async';
-
-import 'package:textomize/modules/features/home/tools/scan_qr_code.dart';
-import 'package:textomize/modules/features/home/tools/split_pdf.dart';
 import 'package:textomize/modules/features/home/tools/watermark_view.dart';
+import 'dart:async';
+import '../modules/features/home/tools/all_tools.dart';
+import '../modules/features/home/tools/compress_pdf.dart';
+import '../modules/features/home/tools/e_sign_pdf.dart';
+import '../modules/features/home/tools/merge_pdf.dart';
+import '../modules/features/home/tools/protect_pdf.dart';
+import '../modules/features/home/tools/scan_qr_code.dart';
+import '../modules/features/home/tools/split_pdf.dart';
 
 class ProfileController extends GetxController {
   var name = ''.obs;

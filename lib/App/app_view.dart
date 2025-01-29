@@ -1,4 +1,6 @@
 import 'package:textomize/core/exports.dart';
+
+import '../modules/splash/splash_view.dart';
 class AppView extends StatefulWidget {
   const AppView({super.key});
   @override

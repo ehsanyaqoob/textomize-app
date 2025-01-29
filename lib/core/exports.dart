@@ -3,12 +3,7 @@
 export 'package:flutter/material.dart';
 export 'package:textomize/App/app_view.dart';
 export 'package:textomize/core/exports.dart';
-export '../modules/splash/splash_view.dart';
-export '../modules/features/onboarding/page_one.dart';
-export '../modules/features/onboarding/page_two.dart';
-export '../modules/features/onboarding/page_three.dart';
-export '../modules/features/onboarding/page_four.dart';
-export '../modules/features/onboarding/boarding.dart';
+
 export '../../controllers/splash_con.dart';
 export '../App/app_colors.dart';
 export '../widgets/Custom_checkbox.dart';
@@ -21,7 +16,6 @@ export '../widgets/simplifyText.dart';
 export '../widgets/simplifyLoader.dart';
 export '../widgets/simplifyFormField.dart';
 export 'package:get/get.dart';
-export '../modules/features/get_start_view.dart';
 // External Libraries 
 export  'package:flutter_screenutil/flutter_screenutil.dart';
 export '../../controllers/controllers.dart';

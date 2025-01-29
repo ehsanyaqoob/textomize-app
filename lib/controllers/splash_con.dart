@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:textomize/core/exports.dart';
 
+import '../modules/features/onboarding/boarding.dart';
+
 class SplashController extends GetxController {
   var isVisible = false.obs;
 
