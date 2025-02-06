@@ -1,5 +1,7 @@
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:textomize/core/exports.dart';
+import 'dart:io';
 
 class AccountView extends StatefulWidget {
   const AccountView({super.key});
@@ -9,59 +11,86 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
+  File? _image;
+  final ImagePicker _picker = ImagePicker();
+  final TextEditingController _nameController =
+      TextEditingController(text: "John Doe");
+  final TextEditingController _emailController =
+      TextEditingController(text: "john.doe@example.com");
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
+  void _saveProfile() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Profile updated successfully!")),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Profile Section
-              Container(
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(12.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 8,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
+              Align(
+                alignment: Alignment.center,
+                child: Stack(
                   children: [
                     CircleAvatar(
-                      radius: 40.r,
-                      backgroundImage: AssetImage('assets/png/Ellipse.png'),
+                      radius: 60.r,
+                      backgroundImage: _image != null
+                          ? FileImage(_image!)
+                          : AssetImage('assets/png/Ellipse.png')
+                              as ImageProvider,
                     ),
-                    SizedBox(width: 16.w),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        simplifyText(
-                          text: "John Doe",
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: _pickImage,
+                        child: CircleAvatar(
+                          radius: 15.r,
+                          backgroundColor: Colors.white,
+                          child: Icon(Icons.camera_alt,
+                              size: 18.sp, color: Colors.blue),
                         ),
-                        SizedBox(height: 4.h),
-                        simplifyText(
-                          text: "john.doe@example.com",
-                          fontSize: 14.sp,
-                          color: Colors.grey.shade600,
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
               ),
+
+              SizedBox(
+                height: 20.h,
+              ),
+
+              SimplifyTextFormField(
+                controller: _nameController,
+                hint: 'enter name',
+                prefix: Icon(Icons.person),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              SimplifyTextFormField(
+                controller: _emailController,
+                hint: 'enter email',
+                prefix: Icon(Icons.email),
+              ),
               SizedBox(height: 24.h),
 
-              // Pinterest-Style Grid
+                // Pinterest-Style Grid
               MasonryGridView.count(
                 shrinkWrap: true,
                 crossAxisCount: 2,
@@ -78,6 +107,13 @@ class _AccountViewState extends State<AccountView> {
                   );
                 },
               ),
+              SizedBox(height: 24.h),
+              SimplifyButton(
+                onTap: _saveProfile,
+                title: "Save Profile",
+                fillColor: true,
+              ),
+              SizedBox(height: 24.h),
             ],
           ),
         ),
@@ -121,12 +157,8 @@ class _PinterestCard extends StatelessWidget {
           children: [
             Icon(icon, color: Colors.blue, size: 28.sp),
             SizedBox(height: 12.h),
-            simplifyText(
-              text: title,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
+            Text(title,
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
           ],
         ),
       ),
@@ -136,32 +168,8 @@ class _PinterestCard extends StatelessWidget {
 
 // Account Options Data
 final List<Map<String, dynamic>> accountOptions = [
-  {
-    'icon': Icons.settings,
-    'title': "Settings",
-    'onTap': () {
-      // Navigate to settings screen
-    },
-  },
-  {
-    'icon': Icons.notifications,
-    'title': "Notifications",
-    'onTap': () {
-      // Navigate to notifications screen
-    },
-  },
-  {
-    'icon': Icons.help_outline,
-    'title': "Help & Support",
-    'onTap': () {
-      // Navigate to help and support screen
-    },
-  },
-  {
-    'icon': Icons.exit_to_app,
-    'title': "Logout",
-    'onTap': () {
-      // Handle logout functionality
-    },
-  },
+  {'icon': Icons.settings, 'title': "Settings", 'onTap': () {}},
+  {'icon': Icons.notifications, 'title': "Notifications", 'onTap': () {}},
+  {'icon': Icons.help_outline, 'title': "Help & Support", 'onTap': () {}},
+  {'icon': Icons.exit_to_app, 'title': "Logout", 'onTap': () {}},
 ];

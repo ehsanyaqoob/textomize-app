@@ -18,11 +18,11 @@ class SimplifyButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.only(top: topMargin),
+        padding: EdgeInsets.only(top: topMargin), 
         child: Container(
-          height: 50.h,
+          height: 45.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50.h/2),
+            borderRadius: BorderRadius.circular(30.h/2),
             border: Border.all(
               color: AppColors.white,
             ),

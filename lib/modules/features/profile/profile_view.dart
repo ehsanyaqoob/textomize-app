@@ -36,7 +36,7 @@ class _ProfileViewState extends State<ProfileView> {
       backgroundColor: AppColors.scaffoldBackgroundColor,
       appBar: CustomAppBar(title: 'Complete Your Profile', centerTitle: true),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: Column(
           children: [
             _buildProfilePictureSection(),
@@ -53,9 +53,9 @@ class _ProfileViewState extends State<ProfileView> {
       child: Stack(
         children: [
           CircleAvatar(
-            radius: 50.r,
-            backgroundColor: Colors.white,
-            backgroundImage: AssetImage('assets/avatar.png'),
+            radius: 60.r,
+            backgroundColor: AppColors.greyColor,
+            // backgroundImage: AssetImage('assets/avatar.png'),
           ),
           Positioned(
             bottom: 0,
