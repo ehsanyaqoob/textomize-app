@@ -1,9 +1,10 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/material.dart';
 import 'package:textomize/core/exports.dart';
 import 'package:textomize/modules/features/home/home_appbar.dart';
 import 'package:textomize/modules/features/home/navbar/account_view.dart';
 import 'package:textomize/modules/features/home/navbar/home_view.dart';
 import 'package:textomize/modules/features/home/navbar/premium/premium_view.dart';
-
 import 'files_view.dart';
 
 class NavBarNavigation extends StatefulWidget {
@@ -16,56 +17,57 @@ class _NavBarNavigationState extends State<NavBarNavigation> {
 
   final List<Widget> _pages = [
     HomeView(),
-    FilesView(),
+    RecentFilesSection(recentFiles: recentFiles),
+    // FilesView(),
     PremiumView(),
     AccountView(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _currentIndex == 0
-          ? AppBar(
-              title: HomeAppBar(),
-              automaticallyImplyLeading: false,
-            )
-          : null,
-      body: SafeArea(
-        child: _pages[_currentIndex],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: AppColors.scaffoldBackgroundColor,
-        unselectedFontSize: 14.0,
-        selectedFontSize: 15.0,
-        unselectedItemColor: AppColors.greyColor,
-        selectedItemColor: AppColors.primaryColor,
-        mouseCursor: SystemMouseCursors.click,
-        iconSize: 26.0,
-        onTap: (index) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (_currentIndex != 0) {
           setState(() {
-            _currentIndex = index;
+            _currentIndex = 0; // Navigate to Home tab
           });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.folder),
-            label: 'Files',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'Premium',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Account',
-          ),
-        ],
+          return false; // Prevent exiting the app
+        }
+        return false; // Stay on Home and prevent back press
+      },
+      child: Scaffold(
+        extendBody: true, // Make the bottom nav bar floating
+        appBar: _currentIndex == 0
+            ? AppBar(
+                title: HomeAppBar(),
+                automaticallyImplyLeading: false,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+              )
+            : null,
+        body: SafeArea(
+          child: _pages[_currentIndex],
+        ),
+        bottomNavigationBar: CurvedNavigationBar(
+          index: _currentIndex,
+          height: 60,
+          backgroundColor: Colors.transparent, 
+          color: AppColors.primaryColor,
+          buttonBackgroundColor: AppColors.primaryColor,
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 300),
+          items: [
+            Icon(Icons.home, size: 30, color: Colors.white),
+            Icon(Icons.folder, size: 30, color: Colors.white),
+            Icon(Icons.star, size: 30, color: Colors.white),
+            Icon(Icons.account_circle, size: 30, color: Colors.white),
+          ],
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }

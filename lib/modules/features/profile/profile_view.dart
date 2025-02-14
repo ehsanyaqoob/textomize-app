@@ -1,6 +1,9 @@
+import 'dart:io';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:textomize/core/exports.dart';
 import 'package:textomize/modules/features/auth/signIn_view.dart';
+import '../../../widgets/custom_bottomsheet.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   final ProfileController profileController = Get.put(ProfileController());
+  final ImagePicker _picker = ImagePicker(); // Image picker instance
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -28,6 +32,50 @@ class _ProfileViewState extends State<ProfileView> {
     profileController.name.listen((value) => nameController.text = value);
     profileController.phone.listen((value) => phoneController.text = value);
     profileController.dob.listen((value) => dobController.text = value);
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    final XFile? pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      profileController.updateProfileImage(pickedFile.path);
+    }
+  }
+
+  void _showImagePickerOptions() {
+    Get.bottomSheet(
+      Container(
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20)), // Rounded top corners
+        ),
+        padding: EdgeInsets.symmetric(
+            vertical: 16), // Add some padding for better UI
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.camera_alt, color: Colors.blue),
+              title: Text("Take a Photo"),
+              onTap: () {
+                Get.back();
+                _pickImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.image, color: Colors.green),
+              title: Text("Choose from Gallery"),
+              onTap: () {
+                Get.back();
+                _pickImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.transparent, // Makes the sheet edges blend well
+      isScrollControlled: true, // Allows better visibility
+    );
   }
 
   @override
@@ -50,26 +98,33 @@ class _ProfileViewState extends State<ProfileView> {
 
   Widget _buildProfilePictureSection() {
     return Center(
-      child: Stack(
-        children: [
-          CircleAvatar(
-            radius: 60.r,
-            backgroundColor: AppColors.greyColor,
-            // backgroundImage: AssetImage('assets/avatar.png'),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                shape: BoxShape.circle,
+      child: GestureDetector(
+        onTap: _showImagePickerOptions,
+        child: Stack(
+          children: [
+            Obx(() {
+              return CircleAvatar(
+                radius: 60.r,
+                backgroundColor: AppColors.greyColor,
+                backgroundImage: profileController.profileImage.value.isNotEmpty
+                    ? FileImage(File(profileController.profileImage.value))
+                    : AssetImage('assets/png/Ellipse.png') as ImageProvider,
+              );
+            }),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.camera_alt, color: Colors.white, size: 18),
               ),
-              child: Icon(Icons.camera_alt, color: Colors.white, size: 18),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -150,23 +205,15 @@ class _ProfileViewState extends State<ProfileView> {
 
   Widget _buildGenderDropdown() {
     return Obx(
-      () => DropdownButtonFormField<String>(
-        value: profileController.gender.value.isEmpty
+      () => TextomizeBottomSheet(
+        title: 'Gender',
+        selectedValue: profileController.gender.value.isEmpty
             ? null
             : profileController.gender.value,
-        onChanged: profileController.updateGender,
-        items: ['Male', 'Female', 'Other']
-            .map(
-              (gender) => DropdownMenuItem(
-                value: gender,
-                child: simplifyText(text: gender),
-              ),
-            )
-            .toList(),
-        decoration: InputDecoration(
-          labelText: 'Gender',
-          border: OutlineInputBorder(),
-        ),
+        options: ['Male', 'Female', 'Other'],
+        onChanged: (value) {
+          profileController.updateGender(value!);
+        },
       ),
     );
   }
@@ -204,7 +251,7 @@ class _ProfileViewState extends State<ProfileView> {
           child: SimplifyButton(
             onTap: () => Get.to(SignInView()),
             title: 'Skip',
-            fillColor: false,
+            fillColor: true,
           ),
         ),
         SizedBox(width: 16.h),
@@ -212,19 +259,16 @@ class _ProfileViewState extends State<ProfileView> {
           child: SimplifyButton(
             onTap: () {
               if (profileController.isFormValid()) {
-                Get.snackbar(
-                  'Profile Completed',
-                  'Your profile details have been saved!',
-                  snackPosition: SnackPosition.BOTTOM,
-                );
+                Get.snackbar('Profile Completed',
+                    'Your profile details have been saved!',
+                    snackPosition: SnackPosition.TOP);
+                Get.to(SignInView());
               } else {
-                Get.snackbar(
-                  'Incomplete Details',
-                  'Please fill all fields before continuing.',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.redAccent,
-                  colorText: Colors.white,
-                );
+                Get.snackbar('Incomplete Details',
+                    'Please fill all fields before continuing.',
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.redAccent,
+                    colorText: Colors.white);
               }
             },
             title: 'Continue',

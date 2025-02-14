@@ -1,6 +1,10 @@
 import 'package:textomize/core/exports.dart';
 
-void main() {
+import 'core/storage_services.dart';
+
+Future<void> main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await StorageService.init(); 
   runApp( AppView());
 }
 

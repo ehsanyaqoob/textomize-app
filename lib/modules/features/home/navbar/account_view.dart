@@ -1,7 +1,11 @@
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:textomize/core/exports.dart';
+import 'package:textomize/screens/help_support.dart';
+import 'package:textomize/screens/notify_view.dart';
 import 'dart:io';
+
+import 'package:textomize/screens/settings_view.dart';
 
 class AccountView extends StatefulWidget {
   const AccountView({super.key});
@@ -90,7 +94,6 @@ class _AccountViewState extends State<AccountView> {
               ),
               SizedBox(height: 24.h),
 
-                // Pinterest-Style Grid
               MasonryGridView.count(
                 shrinkWrap: true,
                 crossAxisCount: 2,
@@ -103,10 +106,12 @@ class _AccountViewState extends State<AccountView> {
                   return _PinterestCard(
                     icon: option['icon'],
                     title: option['title'],
-                    onTap: option['onTap'],
+                    onTap: () =>
+                        option['onTap'](), 
                   );
                 },
               ),
+
               SizedBox(height: 24.h),
               SimplifyButton(
                 onTap: _saveProfile,
@@ -164,12 +169,30 @@ class _PinterestCard extends StatelessWidget {
       ),
     );
   }
-}
-
-// Account Options Data
-final List<Map<String, dynamic>> accountOptions = [
-  {'icon': Icons.settings, 'title': "Settings", 'onTap': () {}},
-  {'icon': Icons.notifications, 'title': "Notifications", 'onTap': () {}},
-  {'icon': Icons.help_outline, 'title': "Help & Support", 'onTap': () {}},
-  {'icon': Icons.exit_to_app, 'title': "Logout", 'onTap': () {}},
+}final List<Map<String, dynamic>> accountOptions = [
+  {
+    'icon': Icons.settings,
+    'title': "Settings",
+    'onTap': () {
+      print("Navigating to Settings");
+      Get.to(() => SettingsView());
+    }
+  },
+  {
+    'icon': Icons.notifications,
+    'title': "Notifications",
+    'onTap': () {
+      print("Navigating to Notifications");
+      Get.to(() => NotificationsView());
+    }
+  },
+  {
+    'icon': Icons.help_outline,
+    'title': "Help & Support",
+    'onTap': () {
+      print("Navigating to Help & Support");
+      Get.to(() => HelpSupportView());
+    }
+  },
+  {'icon': Icons.exit_to_app, 'title': "Logout", 'onTap': () => print("Logout pressed")},
 ];

@@ -137,71 +137,72 @@ class _BoardingState extends State<Boarding> {
       ),
     );
   }
-Widget _buildPage({
-  required String image, // Pass image path
-  required String title,
-  required String description,
-}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-    child: Column(
-      children: [
-        Expanded(
-          child: Center(
-            child: Container(
-              height: 400,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(60),
-                  topRight: Radius.circular(60),
-                  bottomLeft: Radius.circular(150),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    blurRadius: 10,
-                    spreadRadius: 3,
+
+  Widget _buildPage({
+    required String image, // Pass image path
+    required String title,
+    required String description,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Container(
+                height: 400,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(60),
+                    topRight: Radius.circular(60),
+                    bottomLeft: Radius.circular(150),
                   ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(60),
-                  topRight: Radius.circular(60),
-                  bottomLeft: Radius.circular(150),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      blurRadius: 10,
+                      spreadRadius: 3,
+                    ),
+                  ],
                 ),
-                child: SvgPicture.asset(
-                  image, // Corrected this part
-                  fit: BoxFit.contain,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(60),
+                    topRight: Radius.circular(60),
+                    bottomLeft: Radius.circular(150),
+                  ),
+                  child: SvgPicture.asset(
+                    image, // Corrected this part
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
+          const SizedBox(height: 20),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          description,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade600,
+          const SizedBox(height: 10),
+          Text(
+            description,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey.shade600,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    ),
-  );
-}
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:textomize/core/exports.dart';
-import '../../../controllers/signUp_con.dart' as signUpCon;
+import '../../../controllers/signUp_con.dart';
 import 'signIn_view.dart';
 
 class SignUpView extends StatefulWidget {
@@ -8,7 +8,7 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  final signUpCon.SignUpController signUpController = Get.put(signUpCon.SignUpController());
+  final SignUpController signUpController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,6 @@ class _SignUpViewState extends State<SignUpView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             
               simplifyText(
                 textAlign: TextAlign.center,
                 text: "Please fill in the details to create your account.",
@@ -41,9 +40,7 @@ class _SignUpViewState extends State<SignUpView> {
                 hint: "Full Name",
                 title: 'Full Name',
                 inputType: TextInputType.name,
-                prefix: Icon(
-                  Icons.person,
-                ),
+                prefix: Icon(Icons.person),
               ),
               SizedBox(height: 20),
               // Email Field
@@ -52,9 +49,7 @@ class _SignUpViewState extends State<SignUpView> {
                 hint: "Email",
                 title: 'Email',
                 inputType: TextInputType.emailAddress,
-                prefix: Icon(
-                  Icons.email,
-                ),
+                prefix: Icon(Icons.email),
               ),
               SizedBox(height: 20),
               // Phone Field
@@ -63,67 +58,66 @@ class _SignUpViewState extends State<SignUpView> {
                 hint: "Phone Number",
                 title: 'Phone Number',
                 inputType: TextInputType.phone,
-                prefix: Icon(
-                  Icons.phone,
-                ),
+                prefix: Icon(Icons.phone),
               ),
               SizedBox(height: 20),
-              // Password Field
-              SimplifyTextFormField(
-                controller: signUpController.passwordController,
-                hint: "Password",
-                title: 'Password',
-                isObscure: true,
-                prefix: Icon(
-                  Icons.lock,
-                ),
-                suffix: IconButton(
-                  icon: Icon(
-                    isConfirmPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color: AppColors.greyColor,
-                    size: 25,
+              Obx(
+                () => SimplifyTextFormField(
+                  controller: signUpController.passwordController,
+                  hint: "Password",
+                  title: 'Password',
+                  isObscure: !signUpController.isPasswordVisible.value,
+                  prefix: Icon(Icons.lock),
+                  suffix: IconButton(
+                    icon: Icon(
+                      signUpController.isPasswordVisible.value
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: AppColors.greyColor,
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      signUpController.isPasswordVisible.value =
+                          !signUpController.isPasswordVisible.value;
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      isConfirmPasswordVisible = !isConfirmPasswordVisible;
-                    });
-                  },
                 ),
               ),
               SizedBox(height: 10.h),
               // Terms and Conditions Checkbox
-              Row(
-                children: [
-                  CustomCheckbox(
-              value: isChecked, // Pass the current checkbox value
-              onChanged: (bool newValue) {
-                setState(() {
-                  isChecked = newValue; // Update the checkbox value
-                });
-              },
-              activeColor: AppColors.primaryColor, // Custom active color
-              checkColor: AppColors.white, // Custom check color
-              size: 32.0, // Custom size
-              borderRadius: BorderRadius.circular(12), // Custom border radius
-            ),
-           
-                  SizedBox(width: 10.w),
-                  simplifyText(
-                    text: "I accept the terms & conditions",
-                    fontSize: 14.sp,
-                    color: AppColors.greyColor,
-                  ),
-                ],
+              Obx(
+                () => Row(
+                  children: [
+                    CustomCheckbox(
+                      value: signUpController.termsAccepted.value,
+                      onChanged: (bool newValue) {
+                        signUpController.termsAccepted.value = newValue;
+                      },
+                      activeColor: AppColors.primaryColor,
+                      checkColor: AppColors.white,
+                      size: 32.0,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    SizedBox(width: 10.w),
+                    simplifyText(
+                      text: "I accept the terms & conditions",
+                      fontSize: 14.sp,
+                      color: AppColors.greyColor,
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 30),
               // Sign Up Button
-              SimplifyButton(
-                title: "Sign Up",
-                onTap: () {
-                  signUpController.signUp();
-                },
+              Obx(
+                () => SimplifyButton(
+                  title: signUpController.isLoading.value ? "Signing Up..." : "Sign Up",
+                  onTap: signUpController.isLoading.value
+                      ? null
+                      : () {
+                          signUpController.signUp();
+                        },
+                ),
               ),
               SizedBox(height: 20),
               Row(
@@ -133,7 +127,8 @@ class _SignUpViewState extends State<SignUpView> {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       "or continue with",
-                      style: TextStyle(fontSize: 14, color: AppColors.greyColor),
+                      style:
+                          TextStyle(fontSize: 14, color: AppColors.greyColor),
                     ),
                   ),
                   Expanded(child: Divider(color: AppColors.greyColor)),

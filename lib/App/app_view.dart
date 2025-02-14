@@ -1,11 +1,15 @@
 import 'package:textomize/core/exports.dart';
-
+import '../core/storage_services.dart';
 import '../modules/splash/splash_view.dart';
+import '../modules/features/home/navbar/NavBar.dart';
+
 class AppView extends StatefulWidget {
   const AppView({super.key});
+
   @override
   State<AppView> createState() => _AppViewState();
 }
+
 class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
@@ -14,18 +18,20 @@ class _AppViewState extends State<AppView> {
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-           theme: ThemeData(
+          theme: ThemeData(
             scaffoldBackgroundColor: AppColors.white,
             appBarTheme: AppBarTheme(
-              backgroundColor: AppColors.white
-            )
-            
+              backgroundColor: AppColors.white,
+            ),
           ),
           title: 'Textomize',
-          
-          home: SplashScreen(),
+          home: _getInitialScreen(), // Decide initial screen
         );
       },
     );
+  }
+
+  Widget _getInitialScreen() {
+    return StorageService.isLoggedIn() ? NavBarNavigation() : SplashScreen();
   }
 }

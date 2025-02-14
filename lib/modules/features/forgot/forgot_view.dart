@@ -1,15 +1,12 @@
-
 import 'package:textomize/core/exports.dart';
 import 'package:textomize/modules/features/auth/otp_view.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class ForgotPassword extends StatelessWidget {
+  ForgotPassword({super.key});
 
-  @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
-}
+  // Initialize the controller using GetX
+  final ForgotPasswordController controller = Get.put(ForgotPasswordController());
 
-class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,91 +26,66 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               simplifyText(
-                //textAlign: TextAlign.center,
                 text: 'Create New password 🔑',
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
-              SizedBox(
-                height: 30.h,
-              ),
+              SizedBox(height: 30.h),
               simplifyText(
-                //textAlign: TextAlign.center,
-                text:
-                    'Please enter a new one and strong password that will be sucuring your account',
+                text: 'Please enter a new and strong password that will secure your account',
                 fontSize: 12.sp,
               ),
-              SizedBox(
-                height: 30,
-              ),
-              // two textforfield for sign up
+              SizedBox(height: 30),
+
+              // New Password Field
               simplifyText(text: 'New password', fontSize: 20),
-           SimplifyTextFormField(
-                controller: confirmNewPasswordController,
-                hint: 'Password',
-                isObscure: !isConfirmPasswordVisible,
-                prefix: Icon(
-                  Icons.lock,
-                  color: AppColors.greyColor,
-                  size: 25,
-                ),
-                suffix: IconButton(
-                  icon: Icon(
-                    isConfirmPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color: AppColors.greyColor,
-                    size: 25,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isConfirmPasswordVisible = !isConfirmPasswordVisible;
-                    });
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              simplifyText(text: 'Conform new password', fontSize: 20),
+              Obx(() => SimplifyTextFormField(
+                    controller: controller.newPasswordController,
+                    hint: 'Password',
+                    isObscure: !controller.isNewPasswordVisible.value,
+                    prefix: Icon(Icons.lock, color: AppColors.greyColor, size: 25),
+                    suffix: IconButton(
+                      icon: Icon(
+                        controller.isNewPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppColors.greyColor,
+                        size: 25,
+                      ),
+                      onPressed: controller.toggleNewPasswordVisibility,
+                    ),
+                  )),
+              SizedBox(height: 20),
 
-              SimplifyTextFormField(
-                controller: confirmNewPasswordController,
-                hint: 'Password',
-                isObscure: !isConfirmPasswordVisible,
-                prefix: Icon(
-                  Icons.lock,
-                  color: AppColors.greyColor,
-                  size: 25,
-                ),
-                suffix: IconButton(
-                  icon: Icon(
-                    isConfirmPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color: AppColors.greyColor,
-                    size: 25,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isConfirmPasswordVisible = !isConfirmPasswordVisible;
-                    });
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
+              // Confirm Password Field
+              simplifyText(text: 'Confirm new password', fontSize: 20),
+              Obx(() => SimplifyTextFormField(
+                    controller: controller.confirmNewPasswordController,
+                    hint: 'Confirm Password',
+                    isObscure: !controller.isConfirmPasswordVisible.value,
+                    prefix: Icon(Icons.lock, color: AppColors.greyColor, size: 25),
+                    suffix: IconButton(
+                      icon: Icon(
+                        controller.isConfirmPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppColors.greyColor,
+                        size: 25,
+                      ),
+                      onPressed: controller.toggleConfirmPasswordVisibility,
+                    ),
+                  )),
+              SizedBox(height: 40),
 
+              // Continue Button
               SimplifyButton(
                 title: 'Continue',
                 onTap: () {
-                 
                   Get.to(OtpView());
                 },
                 topMargin: 30.0,
                 fillColor: true,
-              )
+              ),
             ],
           ),
         ),

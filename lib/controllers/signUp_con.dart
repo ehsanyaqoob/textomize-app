@@ -1,4 +1,5 @@
 import 'package:textomize/core/exports.dart';
+import 'package:textomize/modules/features/auth/signIn_view.dart';
 
 class SignUpController extends GetxController {
   final TextEditingController nameController = TextEditingController();
@@ -7,8 +8,8 @@ class SignUpController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
 
   RxBool isLoading = false.obs;
-  var isPasswordVisible = false.obs;
-  var termsAccepted = false.obs;
+  RxBool isPasswordVisible = false.obs;
+  RxBool termsAccepted = false.obs;
 
   // Function to validate the email format
   bool isValidEmail(String email) {
@@ -22,7 +23,7 @@ class SignUpController extends GetxController {
     return password.length >= 8;
   }
 
-  void signUp() {
+  void signUp() async {
     if (nameController.text.isEmpty ||
         phoneNumberController.text.isEmpty ||
         emailController.text.isEmpty ||
@@ -30,7 +31,16 @@ class SignUpController extends GetxController {
       Get.snackbar(
         'Error',
         'Please fill in all fields',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
+      );
+      return;
+    }
+
+    if (!termsAccepted.value) {
+      Get.snackbar(
+        'Error',
+        'You must accept the terms and conditions',
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
@@ -39,7 +49,7 @@ class SignUpController extends GetxController {
       Get.snackbar(
         'Error',
         'Please enter a valid email address',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
@@ -48,25 +58,25 @@ class SignUpController extends GetxController {
       Get.snackbar(
         'Error',
         'Password should be at least 8 characters',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
 
-    isLoading.value = true;
+    isLoading.value = true; // Show loader
 
     // Simulate API Call
-    Future.delayed(Duration(seconds: 2), () {
-      isLoading.value = false;
-      Get.snackbar(
-        'Success',
-        'Account created successfully!',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+    await Future.delayed(Duration(seconds: 2));
 
-      // Navigate to login or desired screen
-      Get.offAllNamed('/signin');
-    });
+    isLoading.value = false; // Hide loader
+    Get.snackbar(
+      'Success',
+      'Account created successfully!',
+      snackPosition: SnackPosition.TOP,
+    );
+
+    // Navigate to login or desired screen
+    Get.offAll(SignInView());
   }
 
   @override

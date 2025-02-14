@@ -20,9 +20,7 @@ class _SignInViewState extends State<SignInView> {
       appBar: CustomAppBar(
         title: "Sign In",
         centerTitle: true,
-        onLeadingPressed: () {
-          Get.back();
-        },
+     
       ),
       body: Obx(() {
         // Show loader if isLoading is true

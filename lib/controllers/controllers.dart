@@ -15,22 +15,20 @@ class ProfileController extends GetxController {
   var phone = ''.obs;
   var dob = ''.obs;
   var gender = ''.obs;
-
-  void updateGender(String? newGender) {
-    if (newGender != null) {
-      gender.value = newGender;
-    }
-  }
+  var profileImage = ''.obs; // Added profile image
 
   void updateName(String value) => name.value = value;
   void updatePhone(String value) => phone.value = value;
   void updateDob(String value) => dob.value = value;
+  void updateGender(String value) => gender.value = value;
+  void updateProfileImage(String path) =>
+      profileImage.value = path; // Update profile image
 
   bool isFormValid() {
-    return name.value.isNotEmpty &&
-        phone.value.isNotEmpty &&
-        gender.value.isNotEmpty &&
-        dob.value.isNotEmpty;
+    return name.isNotEmpty &&
+        phone.isNotEmpty &&
+        dob.isNotEmpty &&
+        gender.isNotEmpty;
   }
 }
 
@@ -45,7 +43,6 @@ final List<Map<String, dynamic>> tools = [
   {'label': 'All Tools', 'icon': Icons.grid_view, 'view': AllToolsView()},
 ];
 
-
 /// Checkbox state variables
 bool rememberMe = false;
 bool isSigningUp = false;
@@ -55,27 +52,53 @@ var isSignedIn = false.obs;
 var isLoading = false.obs;
 bool isChecked = false;
 
-/// Controller for signup view
-bool isConfirmPasswordVisible = false;
-  var visiblePassword = true.obs;
+class ForgotPasswordController extends GetxController {
+  // Text controllers
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmNewPasswordController =
+      TextEditingController();
+  final TextEditingController resetPasswordController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  // Toggle visibility method
-  showHidePassword() {
-    visiblePassword.value = !visiblePassword.value;
+  // Password visibility toggles
+  var isNewPasswordVisible = false.obs;
+  var isConfirmPasswordVisible = false.obs;
+
+  // Toggle password visibility
+  void toggleNewPasswordVisibility() {
+    isNewPasswordVisible.value = !isNewPasswordVisible.value;
   }
 
-final TextEditingController searchController = TextEditingController();
-final TextEditingController emailController = TextEditingController();
-final TextEditingController passwordController = TextEditingController();
-final TextEditingController CnicController = TextEditingController();
-final TextEditingController resetEmailController = TextEditingController();
+  void toggleConfirmPasswordVisibility() {
+    isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+  }
+
+  @override
+  void onClose() {
+    // Dispose of controllers to prevent memory leaks
+    newPasswordController.dispose();
+    confirmNewPasswordController.dispose();
+    resetPasswordController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
+}
+
+bool isConfirmPasswordVisible = false;
+
 final TextEditingController resetPasswordController = TextEditingController();
 final TextEditingController newPasswordController = TextEditingController();
 final TextEditingController confirmNewPasswordController =
     TextEditingController();
+final TextEditingController passwordController = TextEditingController();
+
+final TextEditingController searchController = TextEditingController();
+final TextEditingController emailController = TextEditingController();
+final TextEditingController CnicController = TextEditingController();
+final TextEditingController resetEmailController = TextEditingController();
+
 final TextEditingController nameController = TextEditingController();
 final TextEditingController phoneController = TextEditingController();
-
 
 final List<Color> appColors = [
   Color(0xFFE57373),
@@ -88,22 +111,20 @@ final List<Color> appColors = [
   Color(0xFFAED581),
 ];
 
-
-
-  final List<Map<String, String>> recentFiles = [
-    {
-      'title': 'Job Application Letter',
-      'date': '12/30/2023 09:41',
-    },
-    {
-      'title': 'Requirements Document',
-      'date': '12/29/2023 10:20',
-    },
-    {
-      'title': 'Recommendation Letter',
-      'date': '12/28/2023 14:56',
-    },
-  ];
+final List<Map<String, String>> recentFiles = [
+  {
+    'title': 'Job Application Letter',
+    'date': '12/30/2023 09:41',
+  },
+  {
+    'title': 'Requirements Document',
+    'date': '12/29/2023 10:20',
+  },
+  {
+    'title': 'Recommendation Letter',
+    'date': '12/28/2023 14:56',
+  },
+];
 
 final List<String> designationType = [
   'Inspecter',
@@ -185,142 +206,6 @@ class CustomBottomSheet extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class SignUpController extends GetxController {
-  // Observable fields for each dropdown value
-  var selectedRegType = ''.obs;
-  var selectedOptionType = ''.obs;
-  var selectedCurrentMailing = ''.obs;
-  var selectedPermanentMailing = ''.obs;
-  var selectedNomineeType = ''.obs;
-  var selectedPlotType = ''.obs;
-
-  // Controllers for text fields
-  var phoneNumberController = TextEditingController();
-  var emailController = TextEditingController();
-  var nomineeNameController = TextEditingController();
-  var nameController = TextEditingController();
-  var cnicController = TextEditingController();
-  var dobController = TextEditingController();
-  var fatherController = TextEditingController();
-  var spouseController = TextEditingController();
-  var permanentAddressController = TextEditingController();
-
-  // New controllers added for missing fields
-  var regTypeController = TextEditingController();
-  var currentMailingController = TextEditingController();
-  var nomineeController = TextEditingController();
-
-  // Observable properties for gender and marital status
-  var selectedGender = ''.obs;
-  var selectedMaritalStatus = ''.obs;
-
-  final departmentController = TextEditingController();
-  final designationController = TextEditingController();
-  final plotTypeController = TextEditingController();
-  final optionTypeController = TextEditingController();
-  final employeenoController = TextEditingController();
-  final employeenameController = TextEditingController();
-  final employeecnicController = TextEditingController();
-  final passwordController = TextEditingController();
-  var payscaleController = TextEditingController();
-
-  // Define observable variables to update UI for designation, department, and pay scale
-  var designationType = ''.obs;
-  var departmentType = ''.obs;
-  var payScaleType = ''.obs;
-
-  // Method to update designation type
-  void onChangedesignationType(String value) {
-    designationType.value = value;
-    designationController.text = value; // Update the text controller
-  }
-
-  // Method to update department type
-  void onChangedepartmentType(String value) {
-    departmentType.value = value;
-    departmentController.text = value; // Update the text controller
-  }
-
-  // Method to update pay scale type
-  void onChangepayScale(String value) {
-    payScaleType.value = value;
-    payscaleController.text = value; // Update the text controller
-  }
-
-  // Visibility state for password field
-  var isPasswordVisible = false.obs;
-
-  // Track progress
-  var currentStep =
-      3.obs; // Adjust the starting step as needed (3 for third form)
-  var isSubmitted = false.obs; // Track submission status
-
-  // Remember me checkbox state
-  var rememberMe = false.obs;
-
-  // Update methods for each field
-  void onChangeRegType(String value) {
-    selectedRegType.value = value;
-  }
-
-  void onChangeOptionType(String value) {
-    selectedOptionType.value = value;
-  }
-
-  void onChangeCurrentMailing(String value) {
-    selectedCurrentMailing.value = value;
-  }
-
-  void onChangePermanentMailing(String value) {
-    selectedPermanentMailing.value = value;
-  }
-
-  void onChangeNomineeType(String value) {
-    selectedNomineeType.value = value;
-  }
-
-  void onChangePlotType(String value) {
-    selectedPlotType.value = value;
-  }
-
-  // Clean up the controllers when not needed
-  @override
-  void onClose() {
-    nameController.dispose();
-    cnicController.dispose();
-    phoneNumberController.dispose();
-    emailController.dispose();
-    nomineeNameController.dispose();
-    regTypeController.dispose(); // Dispose of new controllers
-    currentMailingController.dispose();
-    nomineeController.dispose();
-    passwordController.dispose();
-    departmentController.dispose();
-    designationController.dispose();
-    plotTypeController.dispose();
-    super.onClose();
-  }
-
-  // Function to toggle password visibility
-  void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
-  }
-
-  // Function to toggle "Remember Me" checkbox
-  void toggleRememberMe() {
-    rememberMe.value = !rememberMe.value;
-  }
-
-  // Add Pay Scale options if needed
-  List<String> payScaleOptions = ['Option 1', 'Option 2', 'Option 3'];
-
-  // Optional method to fetch pay scale options (if from an API or dynamic source)
-  void fetchPayScaleOptions() {
-    // Replace with your logic for fetching the pay scale options
-    payScaleOptions = ['Updated Option 1', 'Updated Option 2'];
   }
 }
 
