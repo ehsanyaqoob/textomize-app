@@ -4,7 +4,6 @@ import 'package:textomize/widgets/simplifyText.dart';
 import 'pre_feature_card.dart';
 import 'pre_placeholder.dart';
 
-
 class PremiumView extends StatefulWidget {
   const PremiumView({super.key});
 
@@ -30,15 +29,16 @@ class _PremiumViewState extends State<PremiumView> {
   Future<void> _loadPremiumData() async {
     // Simulate a network call
     await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-   
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: isLoading
@@ -46,11 +46,10 @@ class _PremiumViewState extends State<PremiumView> {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   simplifyText(
-                text:     'Upgrade to Premium',
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    
+                  simplifyText(
+                    text: 'Upgrade to Premium',
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                   const SizedBox(height: 16),
                   Expanded(
@@ -66,8 +65,11 @@ class _PremiumViewState extends State<PremiumView> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  SimplifyButton(title: 'Upgrade Now', onTap: (){},
-                  fillColor: true,)
+                  SimplifyButton(
+                    title: 'Upgrade Now',
+                    onTap: () {},
+                    fillColor: true,
+                  )
                 ],
               ),
       ),
