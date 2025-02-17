@@ -1,18 +1,16 @@
-import 'package:textomize/controllers/e_sign_controller.dart';
+import 'package:textomize/controllers/scan_con.dart';
 import 'package:textomize/core/exports.dart';
 
-class ESignPDFView extends StatelessWidget {
-  final ESignPDFController controller = Get.put(ESignPDFController());
+class TranslateTextView extends StatelessWidget {
+  final TranslateTextController controller = Get.put(TranslateTextController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'E-Sign PDF',
+        title: 'Translate Text',
         centerTitle: true,
-        onLeadingPressed: () {
-          Get.back();
-        },
+        onLeadingPressed: () => Get.back(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -20,14 +18,19 @@ class ESignPDFView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
+
+              // Heading
               simplifyText(
-                text: 'Sign your PDF document electronically',
+                text: 'Translate Text to your preferred language',
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,
               ),
-              SizedBox(height: 20.0),
+
+              const SizedBox(height: 20.0),
+
+              // Translation Card
               Center(
                 child: Container(
                   width: double.infinity,
@@ -57,14 +60,10 @@ class ESignPDFView extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.edit_document,
-                        size: 100.0,
-                        color: Colors.green,
-                      ),
-                      SizedBox(height: 10),
+                      const Icon(Icons.edit_document, size: 100.0, color: Colors.green),
+                      const SizedBox(height: 10),
                       simplifyText(
-                        text: "Ready to sign?",
+                        text: "Ready to translate?",
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.green[700],
@@ -73,27 +72,38 @@ class ESignPDFView extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 30.0),
+
+              const SizedBox(height: 30.0),
+
+              // Subheading
               simplifyText(
                 text: 'Choose one of the options below to continue.',
                 fontSize: 16.0,
                 color: Colors.grey[700],
               ),
-              SizedBox(height: 20.0),
+
+              const SizedBox(height: 20.0),
+
+              // Buttons
               SimplifyButton(
                 title: 'Open Camera',
                 topMargin: 10.0,
                 fillColor: true,
                 onTap: controller.openCamera,
               ),
-              SizedBox(height: 15.0),
+
+              const SizedBox(height: 15.0),
+
               SimplifyButton(
                 title: 'Pick PDF from Gallery',
                 topMargin: 10.0,
                 fillColor: true,
-                onTap: controller.pickPDF,
+                onTap: controller.pickGalleryImage, 
               ),
-              SizedBox(height: 40.0),
+
+              const SizedBox(height: 40.0),
+
+              // Security Notice
               Center(
                 child: Column(
                   children: [
@@ -102,12 +112,8 @@ class ESignPDFView extends StatelessWidget {
                       fontSize: 14.0,
                       color: Colors.grey[500],
                     ),
-                    SizedBox(height: 5),
-                    Icon(
-                      Icons.lock_rounded,
-                      size: 20.0,
-                      color: Colors.grey[500],
-                    ),
+                    const SizedBox(height: 5),
+                    Icon(Icons.lock_rounded, size: 20.0, color: Colors.grey[500]),
                   ],
                 ),
               ),

@@ -1,14 +1,14 @@
 import 'package:flutter/services.dart';
 import 'package:textomize/core/exports.dart';
-import 'package:textomize/modules/features/home/tools/watermark_view.dart';
+import 'package:textomize/modules/features/home/tools/scan_qr_code_view.dart';
 import 'dart:async';
 import '../modules/features/home/tools/all_tools.dart';
 import '../modules/features/home/tools/compress_pdf.dart';
-import '../modules/features/home/tools/e_sign_pdf.dart';
+import '../modules/features/home/tools/translaet_view.dart';
 import '../modules/features/home/tools/merge_pdf.dart';
 import '../modules/features/home/tools/protect_pdf.dart';
-import '../modules/features/home/tools/scan_qr_code.dart';
-import '../modules/features/home/tools/split_pdf.dart';
+import '../modules/features/home/tools/scan_doc_view.dart';
+import '../modules/features/home/tools/extract_view.dart';
 
 class ProfileController extends GetxController {
   var name = ''.obs;
@@ -33,15 +33,20 @@ class ProfileController extends GetxController {
 }
 
 final List<Map<String, dynamic>> tools = [
-  {'label': 'Scan Code', 'icon': Icons.qr_code, 'view': ScanQrCodeView()},
-  {'label': 'Watermark', 'icon': Icons.water, 'view': WaterMarkView()},
-  {'label': 'eSign PDF', 'icon': Icons.edit, 'view': ESignPDFView()},
-  {'label': 'Split PDF', 'icon': Icons.splitscreen, 'view': SplitPdfView()},
+  {'label': 'Scan Doc', 'icon': Icons.document_scanner, 'view': ScanDocumentView()},
+  {'label': 'Scan QR ', 'icon': Icons.qr_code, 'view': ScanQRCodeView()},
+  {'label': 'Translate Text', 'icon': Icons.translate, 'view': TranslateTextView()},
+  {'label': 'Extract Text', 'icon': Icons.splitscreen, 'view': ExtractTextView()},
   {'label': 'Merge PDF', 'icon': Icons.merge_type, 'view': MergePDFView()},
   {'label': 'Protect PDF', 'icon': Icons.lock, 'view': ProtectPDFView()},
   {'label': 'Compress PDF', 'icon': Icons.compress, 'view': CompressPDFView()},
   {'label': 'All Tools', 'icon': Icons.grid_view, 'view': AllToolsView()},
 ];
+
+// Scan document
+// Scan QR code
+// Translate document
+// Extract Text
 
 /// Checkbox state variables
 bool rememberMe = false;

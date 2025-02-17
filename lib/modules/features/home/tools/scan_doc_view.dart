@@ -1,26 +1,26 @@
 
 import 'package:textomize/core/exports.dart';
 
-class ScanQrCodeView extends StatefulWidget {
-  const ScanQrCodeView({super.key});
+class ScanDocumentView extends StatefulWidget {
+  const ScanDocumentView({super.key});
 
   @override
-  State<ScanQrCodeView> createState() => _ScanQrCodeViewState();
+  State<ScanDocumentView> createState() => _ScanDocumentViewState();
 }
 
-class _ScanQrCodeViewState extends State<ScanQrCodeView> {
+class _ScanDocumentViewState extends State<ScanDocumentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Scan QR Code',
+        title: 'Scan Document ',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             simplifyText(
-              text: 'Scan QR Code to proceed',
+              text: 'Scan Document to proceed',
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
               color: AppColors.primaryColor,
@@ -43,7 +43,7 @@ class _ScanQrCodeViewState extends State<ScanQrCodeView> {
             ),
             SizedBox(height: 20.0),
             simplifyText(
-              text: 'Align the QR code inside the frame to scan.',
+              text: 'Align the Documentinside the frame to scan.',
               fontSize: 14.0,
               color: Colors.grey[600],
             ),

@@ -1,18 +1,18 @@
 import 'package:textomize/core/exports.dart';
 
-class SplitPdfView extends StatefulWidget {
-  const SplitPdfView({super.key});
+class ExtractTextView extends StatefulWidget {
+  const ExtractTextView({super.key});
 
   @override
-  State<SplitPdfView> createState() => _SplitPdfViewState();
+  State<ExtractTextView> createState() => _ExtractTextViewState();
 }
 
-class _SplitPdfViewState extends State<SplitPdfView> {
+class _ExtractTextViewState extends State<ExtractTextView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Split PDF',
+        title: ' Extract Text',
       ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
@@ -20,7 +20,7 @@ class _SplitPdfViewState extends State<SplitPdfView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             simplifyText(
-              text: 'Split your PDF document into multiple parts',
+              text: ' Extract Text from Image or PDF',
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
               color: AppColors.primaryColor,
@@ -44,7 +44,7 @@ class _SplitPdfViewState extends State<SplitPdfView> {
             ),
             SizedBox(height: 30.0),
             simplifyText(
-              text: 'Upload a PDF to split it into separate pages or sections.',
+              text: ' Extract text from an image or PDF document.',
               fontSize: 16.0,
               color: Colors.grey[600],
             ),
@@ -58,7 +58,7 @@ class _SplitPdfViewState extends State<SplitPdfView> {
             ),
             SizedBox(height: 25.0),
             simplifyText(
-              text: 'Alternatively, you can select page ranges to split.',
+              text: ' OR  ',
               fontSize: 14.0,
               color: Colors.grey[600],
             ),

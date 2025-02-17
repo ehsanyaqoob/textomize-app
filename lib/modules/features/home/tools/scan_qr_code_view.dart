@@ -1,18 +1,18 @@
 import 'package:textomize/core/exports.dart';
 
-class WaterMarkView extends StatefulWidget {
-  const WaterMarkView({super.key});
+class ScanQRCodeView extends StatefulWidget {
+  const ScanQRCodeView({super.key});
 
   @override
-  State<WaterMarkView> createState() => _WaterMarkViewState();
+  State<ScanQRCodeView> createState() => _ScanQRCodeViewState();
 }
 
-class _WaterMarkViewState extends State<WaterMarkView> {
+class _ScanQRCodeViewState extends State<ScanQRCodeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Add Watermark',
+        title: 'Scan QR Code',
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -20,7 +20,7 @@ class _WaterMarkViewState extends State<WaterMarkView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             simplifyText(
-              text: 'Apply a Watermark to Your Documents',
+              text: 'Scan QR Code to proceed',
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
               color: AppColors.primaryColor,
@@ -50,13 +50,13 @@ class _WaterMarkViewState extends State<WaterMarkView> {
             ),
             SizedBox(height: 25.0),
             simplifyText(
-              text: 'Upload a document and add a watermark to it.',
+              text: 'Upload a document and scan the QR code.',
               fontSize: 16.0,
               color: Colors.grey[600],
             ),
             SizedBox(height: 30.0),
             SimplifyButton(
-              title: 'Select Document to Watermark',
+              title: 'Select Document to Scan',
               onTap: () {
                 // Add your logic here
               },
@@ -73,7 +73,7 @@ class _WaterMarkViewState extends State<WaterMarkView> {
                 ),
                 SizedBox(width: 5.0),
                 simplifyText(
-                  text: 'Choose your watermark style.',
+                  text: 'Choose your Style For Scaning .',
                   fontSize: 14.0,
                   color: Colors.grey[600],
                 ),
