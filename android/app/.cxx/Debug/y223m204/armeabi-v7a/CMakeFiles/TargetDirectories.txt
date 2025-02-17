@@ -1,0 +1,2 @@
+D:/FYP/textomize-app/android/app/.cxx/Debug/y223m204/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/FYP/textomize-app/android/app/.cxx/Debug/y223m204/armeabi-v7a/CMakeFiles/rebuild_cache.dir

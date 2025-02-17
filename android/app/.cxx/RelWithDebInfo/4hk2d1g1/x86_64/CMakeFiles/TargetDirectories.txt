@@ -1,0 +1,2 @@
+D:/FYP/textomize-app/android/app/.cxx/RelWithDebInfo/4hk2d1g1/x86_64/CMakeFiles/edit_cache.dir
+D:/FYP/textomize-app/android/app/.cxx/RelWithDebInfo/4hk2d1g1/x86_64/CMakeFiles/rebuild_cache.dir
