@@ -19,7 +19,7 @@ class _MergePDFViewState extends State<MergePDFView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            simplifyText(
+            CustomText(
               text: 'Merge multiple PDF files into one document',
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -42,10 +42,10 @@ class _MergePDFViewState extends State<MergePDFView> {
               ),
             ),
             SizedBox(height: 30.0),
-            simplifyText(
+            CustomText(
               text: 'Upload your PDFs to merge them.',
               fontSize: 16.0,
-              color: Colors.grey[600],
+                           color: AppColors.greyColor,
             ),
             SizedBox(height: 30.0),
             SimplifyButton(
@@ -56,10 +56,10 @@ class _MergePDFViewState extends State<MergePDFView> {
               fillColor: true,
             ),
             SizedBox(height: 25.0),
-            simplifyText(
+            CustomText(
               text: 'You can rearrange pages and select order.',
               fontSize: 14.0,
-              color: Colors.grey[600],
+                           color: AppColors.greyColor,
             ),
             SizedBox(height: 20.0),
             Row(
@@ -71,10 +71,10 @@ class _MergePDFViewState extends State<MergePDFView> {
                   color: Colors.grey[600],
                 ),
                 SizedBox(width: 5.0),
-                simplifyText(
+                CustomText(
                   text: 'Rearrange Pages',
                   fontSize: 14.0,
-                  color: Colors.grey[600],
+                           color: AppColors.greyColor,
                 ),
               ],
             ),

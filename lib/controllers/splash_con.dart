@@ -1,21 +1,44 @@
 import 'package:get/get.dart';
-import 'package:textomize/core/exports.dart';
-
+import 'package:textomize/core/storage_services.dart';
+import '../modules/features/auth/signIn_view.dart';
 import '../modules/features/onboarding/boarding.dart';
+import '../modules/features/home/navbar/NavBar.dart';
 
 class SplashController extends GetxController {
-  var isVisible = false.obs;
+  final RxBool isVisible = true.obs;
 
   @override
   void onInit() {
     super.onInit();
-    _startSplashScreen();
+    _startSplash();
   }
 
-  Future<void> _startSplashScreen() async {
-    await Future.delayed(Duration(seconds: 2));
+  void _startSplash() async {
+    // Show loading spinner
     isVisible.value = true;
-    await Future.delayed(Duration(seconds: 3));
-    Get.offAll(() => Boarding());
+
+    await Future.delayed(const Duration(seconds: 2));  // Splash wait time
+
+    await StorageService.init();  // Initialize the Storage Service
+    bool isLoggedIn = StorageService.isLoggedIn(); // Check if logged in
+    bool seenOnboarding = StorageService.hasSeenOnboarding(); // Check if onboarding is seen
+
+    // Hide the loading spinner before navigating
+    isVisible.value = false;
+
+    await Future.delayed(const Duration(milliseconds: 200));  // Brief pause before navigation
+
+    if (isLoggedIn) {
+      // Scenario 3: Directly go to Home if logged in and session exists
+      Get.offAll(() => NavBarNavigation());
+    } else {
+      if (seenOnboarding) {
+        // Scenario 2: If not logged in but onboarding is seen, go to SignIn
+        Get.offAll(() => SignInView());
+      } else {
+        // Scenario 1: If not logged in and onboarding hasn't been seen, go to Boarding
+        Get.offAll(() => Boarding());
+      }
+    }
   }
 }

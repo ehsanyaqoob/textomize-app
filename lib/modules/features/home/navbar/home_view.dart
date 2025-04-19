@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:textomize/widgets/simplifyText.dart';
+import 'package:textomize/widgets/info_details.dart';
+import 'package:textomize/widgets/custom_text_widgets.dart';
 import '../../../../controllers/controllers.dart';
 import '../../../../core/constatnts.dart';
+import '../../../../core/exports.dart';
 import '../../../../models/tool_model.dart';
 import '../tools/tools_section.dart';
 
@@ -13,16 +15,23 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  bool isLoading = true;
+ bool isLoading = true;
+  final HomeController _controller = Get.put(HomeController());
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        isLoading = false;
+
+    if (_controller.hasShownShimmer) {
+      isLoading = false;
+    } else {
+      Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          isLoading = false;
+          _controller.hasShownShimmer = true;
+        });
       });
-    });
+    }
   }
 
   @override
@@ -32,6 +41,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+// shimmer boxes for delays or api calling 
   Widget _buildShimmerEffect() {
     return SingleChildScrollView(
       child: Column(
@@ -48,16 +58,23 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildHomeContent() {
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 16),
-          ToolsSection(
-            tools: tools.map((tool) => Tool.fromMap(tool)).toList(),
-          ),
-          SizedBox(height: 20),
-          RecentFilesSection(recentFiles: recentFiles),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 26.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+         InfoCard(
+                  username: 'Nufyll ',
+                  fullName: 'Nufyll Abbasi',
+                ),
+            SizedBox(height: 16.h),
+            ToolsSection(
+              tools: tools.map((tool) => Tool.fromMap(tool)).toList(),
+            ),
+            SizedBox(height: 16.h),
+            RecentFilesSection(recentFiles: recentFiles),
+          ],
+        ),
       ),
     );
   }
@@ -115,113 +132,110 @@ class RecentFilesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              simplifyText(
-                  text: AppConstants.recent_files,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22.0),
-              IconButton(
-                icon: Icon(Icons.arrow_forward_ios_rounded,
-                    color: Colors.black, size: 22),
-                onPressed: () {},
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomText(
+                text: AppConstants.recent_files,
+                fontWeight: FontWeight.bold,
+                fontSize: 22.0),
+            IconButton(
+              icon: Icon(Icons.arrow_forward_ios_rounded,
+                  color: Colors.black, size: 22),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        SizedBox(height: 10.0),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: recentFiles.length,
+          itemBuilder: (context, index) {
+            final file = recentFiles[index];
+            return Container(
+              height: 80.h,
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(bottom: 10.0),
+              padding: EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
               ),
-            ],
-          ),
-          SizedBox(height: 10.0),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: recentFiles.length,
-            itemBuilder: (context, index) {
-              final file = recentFiles[index];
-              return Container(
-                height: 80.h,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(bottom: 10.0),
-                padding: EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
+              child: Row(
+                children: [
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(Icons.description,
-                          size: 30, color: Colors.blueAccent),
-                    ),
-                    SizedBox(width: 12.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            file['title'] ?? 'Untitled',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                              color: Colors.black87,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                    child: Icon(Icons.description,
+                        size: 30, color: Colors.blueAccent),
+                  ),
+                  SizedBox(width: 12.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          file['title'] ?? 'Untitled',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.black87,
                           ),
-                          SizedBox(height: 4.0),
-                          Row(
-                            children: [
-                              simplifyText(
-                                  text: file['date'] ?? '??',
-                                  fontSize: 14.0,
-                                  color: Colors.grey),
-                              SizedBox(width: 10.0),
-                              simplifyText(
-                                  text: file['time'] ?? '??',
-                                  fontSize: 14.0,
-                                  color: Colors.grey),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.share, color: Colors.grey),
-                      onPressed: () {},
-                    ),
-                    PopupMenuButton(
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                            child: simplifyText(text: "Open"), value: "open"),
-                        PopupMenuItem(
-                            child: simplifyText(text: "Delete"),
-                            value: "delete"),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 4.0),
+                        Row(
+                          children: [
+                            CustomText(
+                                text: file['date'] ?? '??',
+                                fontSize: 12.sp,
+                                color: Colors.grey),
+                            SizedBox(width: 10.0.w),
+                            CustomText(
+                                text: file['time'] ?? '??',
+                                fontSize: 12.sp,
+                                color: Colors.grey),
+                          ],
+                        ),
                       ],
-                      icon: Icon(Icons.more_vert, color: Colors.grey),
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.share, color: Colors.grey),
+                    onPressed: () {},
+                  ),
+                  PopupMenuButton(
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                          child: CustomText(text: "Open"), value: "open"),
+                      PopupMenuItem(
+                          child: CustomText(text: "Delete"),
+                          value: "delete"),
+                    ],
+                    icon: Icon(Icons.more_vert, color: Colors.grey),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

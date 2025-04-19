@@ -27,10 +27,10 @@ class SplashScreen extends StatelessWidget {
                       children: [
                         SpinKitFadingCircle(
                           color: AppColors.white,
-                          size: 40.h, 
+                          size: 40.h,
                         ),
                         SizedBox(height: 8.h),
-                        simplifyText(
+                        CustomText(
                           text: AppConstants.pleaseWait,
                           textAlign: TextAlign.center,
                           fontSize: 12.sp,

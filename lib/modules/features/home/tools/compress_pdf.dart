@@ -19,7 +19,7 @@ class _CompressPDFViewState extends State<CompressPDFView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            simplifyText(
+            CustomText(
               text: 'Quickly Compress Your PDF Files!',
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
@@ -49,10 +49,10 @@ class _CompressPDFViewState extends State<CompressPDFView> {
               ),
             ),
             SizedBox(height: 20.0),
-            simplifyText(
+            CustomText(
               text: 'Upload your PDF and reduce its size instantly.',
               fontSize: 16.0,
-              color: Colors.grey[700],
+              color: AppColors.greyColor,
             ),
             SizedBox(height: 40.0),
             SimplifyButton(
@@ -72,10 +72,10 @@ class _CompressPDFViewState extends State<CompressPDFView> {
                   color: Colors.grey[600],
                 ),
                 SizedBox(width: 8.0),
-                simplifyText(
+                CustomText(
                   text: 'Max file size: 10MB',
                   fontSize: 14.0,
-                  color: Colors.grey[600],
+              color: AppColors.greyColor,
                 ),
               ],
             ),

@@ -92,26 +92,26 @@ class _OtpViewState extends State<OtpView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      simplifyText(
+                      CustomText(
                         text: 'OTP Code Verification 🔑',
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
                       SizedBox(height: 30),
-                      simplifyText(
+                      CustomText(
                         text: 'Please enter the OTP code that has been sent to your phone or email.',
                         fontSize: 16,
                       ),
                       SizedBox(height: 20),
                       Obx(() {
-                        return simplifyText(
+                        return CustomText(
                           text: 'Resend OTP in: ${otpTimerController.secondsRemaining.value} seconds',
                           fontSize: 16,
                           color: AppColors.red,
                         );
                       }),
                       SizedBox(height: 20),
-                      simplifyText(text: 'OTP Fields', fontSize: 20),
+                      CustomText(text: 'OTP Fields', fontSize: 20),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -25,21 +25,21 @@ class ForgotPassword extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              simplifyText(
+              CustomText(
                 text: 'Create New password 🔑',
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
               SizedBox(height: 30.h),
-              simplifyText(
+              CustomText(
                 text: 'Please enter a new and strong password that will secure your account',
                 fontSize: 12.sp,
               ),
               SizedBox(height: 30),
 
               // New Password Field
-              simplifyText(text: 'New password', fontSize: 20),
-              Obx(() => SimplifyTextFormField(
+              CustomText(text: 'New password', fontSize: 20),
+              Obx(() => CustomTextFormField(
                     controller: controller.newPasswordController,
                     hint: 'Password',
                     isObscure: !controller.isNewPasswordVisible.value,
@@ -58,8 +58,8 @@ class ForgotPassword extends StatelessWidget {
               SizedBox(height: 20),
 
               // Confirm Password Field
-              simplifyText(text: 'Confirm new password', fontSize: 20),
-              Obx(() => SimplifyTextFormField(
+              CustomText(text: 'Confirm new password', fontSize: 20),
+              Obx(() => CustomTextFormField(
                     controller: controller.confirmNewPasswordController,
                     hint: 'Confirm Password',
                     isObscure: !controller.isConfirmPasswordVisible.value,

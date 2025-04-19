@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:textomize/core/exports.dart';
 import 'package:textomize/modules/features/home/tools/scan_qr_code_view.dart';
 import 'dart:async';
@@ -9,6 +13,102 @@ import '../modules/features/home/tools/merge_pdf.dart';
 import '../modules/features/home/tools/protect_pdf.dart';
 import '../modules/features/home/tools/scan_doc_view.dart';
 import '../modules/features/home/tools/extract_view.dart';
+
+
+
+class EditProfileDataController extends GetxController {
+  // Observable fields for reactive updates
+  var name = ''.obs;
+  var email = ''.obs;
+  var phone = ''.obs;
+  var profileImage = Rxn<File>();
+
+  // Validation error messages
+  var nameError = RxnString();
+  var emailError = RxnString();
+  var phoneError = RxnString();
+
+  // Update methods
+  void updateName(String newName) {
+    name.value = newName;
+    nameError.value = null;
+  }
+
+  void updateEmail(String newEmail) {
+    email.value = newEmail;
+    emailError.value = null;
+  }
+
+  void updatePhone(String newPhone) {
+    phone.value = newPhone;
+    phoneError.value = null;
+  }
+
+  // Pick image
+  Future<void> pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
+      profileImage.value = File(pickedFile.path);
+    }
+  }
+
+  // Delete image
+  void deleteImage() {
+    profileImage.value = null;
+  }
+
+  // Save user data with validation
+  void saveChanges() {
+    bool isValid = _validateInputs();
+
+    if (!isValid) {
+      Get.snackbar(
+        'Validation Error',
+        'Please fix the highlighted fields.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    // Simulate saving
+    print("Saved Name: ${name.value}");
+    print("Saved Email: ${email.value}");
+    print("Saved Phone: ${phone.value}");
+    print("Profile Image: ${profileImage.value?.path ?? 'None'}");
+
+    Get.snackbar(
+      'Success',
+      'Your profile has been updated successfully!',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
+  }
+
+  // Internal validation logic
+  bool _validateInputs() {
+    bool isValid = true;
+
+    if (name.value.trim().isEmpty) {
+      nameError.value = "Name is required";
+      isValid = false;
+    }
+
+    if (!GetUtils.isEmail(email.value)) {
+      emailError.value = "Invalid email address";
+      isValid = false;
+    }
+
+    if (phone.value.length < 10) {
+      phoneError.value = "Phone number is too short";
+      isValid = false;
+    }
+
+    return isValid;
+  }
+}
 
 class ProfileController extends GetxController {
   var name = ''.obs;
@@ -178,7 +278,90 @@ final List<String> payScaleOptions = [
   '22',
 ];
 
-// Custom bottom sheet widget for reuse
+class UploadController extends GetxController {
+  var selectedFiles = <File>[].obs;
+  var uploadProgress = 0.0.obs;
+  var timeRemaining = "30 sec.".obs;
+  var isUploading = false.obs;
+
+  Timer? _timer;
+
+  /// Pick multiple images from file picker
+  void pickFiles() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      selectedFiles.value = result.paths.map((e) => File(e!)).toList();
+      startUploading();
+    }
+  }
+
+  /// Pick a single image from camera or gallery
+  Future<void> pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
+      selectedFiles.add(File(pickedFile.path));
+      startUploading();
+    }
+  }
+
+  /// Start the upload simulation
+  void startUploading() {
+    if (selectedFiles.isEmpty) return;
+
+    int total = 30; // total simulated seconds
+    int seconds = 0;
+
+    _timer?.cancel(); // reset if already running
+
+    uploadProgress.value = 0.0;
+    timeRemaining.value = "$total sec.";
+    isUploading.value = true;
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!isUploading.value || seconds >= total) {
+        timer.cancel();
+        uploadProgress.value = 1.0;
+        timeRemaining.value = "Done";
+        isUploading.value = false;
+      } else {
+        seconds++;
+        uploadProgress.value = seconds / total;
+        timeRemaining.value = "${total - seconds} sec.";
+      }
+    });
+  }
+
+  /// Pause the upload
+  void pauseUpload() {
+    _timer?.cancel();
+    isUploading.value = false;
+  }
+
+  /// Resume the upload from the paused state
+  void resumeUpload() {
+    if (uploadProgress.value < 1.0 && !isUploading.value) {
+      isUploading.value = true;
+      startUploading();
+    }
+  }
+
+  /// Cancel upload and reset everything
+  void cancelUpload() {
+    _timer?.cancel();
+    isUploading.value = false;
+    selectedFiles.clear();
+    uploadProgress.value = 0.0;
+    timeRemaining.value = "0 sec.";
+  }
+}
+
+class HomeController extends GetxController {
+  bool hasShownShimmer = false;
+}
 class CustomBottomSheet extends StatelessWidget {
   final Widget? header;
   final Widget? content;

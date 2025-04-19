@@ -29,7 +29,7 @@ class _GetStartViewState extends State<GetStartView> {
                 ),
               ),
               SizedBox(height: 20.h),
-              simplifyText(
+              CustomText(
                 text: "Let's you in",
                 fontSize: 22.sp,
                 fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class _GetStartViewState extends State<GetStartView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: simplifyText(
+                    child: CustomText(
                       text: "or",
                       color: Colors.grey,
                       fontSize: 18.sp,
@@ -105,7 +105,7 @@ class _GetStartViewState extends State<GetStartView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  simplifyText(
+                  CustomText(
                     text: "Don't have an account? ",
                     color: AppColors.primaryColor,
                     fontSize: 12.sp,
@@ -114,7 +114,7 @@ class _GetStartViewState extends State<GetStartView> {
                     onTap: () {
                       Get.to(() => SignUpView());
                     },
-                    child: simplifyText(
+                    child: CustomText(
                       text: "Sign Up",
                       color: AppColors.primaryColor,
                       fontSize: 20.sp,
@@ -172,7 +172,7 @@ class SocialSignInButton extends StatelessWidget {
               height: 30.h,
             ),
             SizedBox(width: 10.w),
-            simplifyText(
+            CustomText(
               text: title,
               fontSize: 16,
               color: textColor,

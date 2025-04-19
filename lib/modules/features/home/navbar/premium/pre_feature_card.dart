@@ -47,14 +47,14 @@ class PremiumFeatureCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                simplifyText(
+                CustomText(
                   text: title,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
                 SizedBox(height: 8.h),
-                simplifyText(
+                CustomText(
                   text: description,
                   fontSize: 10.sp,
                   color: Colors.grey,

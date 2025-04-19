@@ -1,11 +1,12 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:textomize/core/exports.dart';
-import 'package:textomize/modules/features/home/home_appbar.dart';
 import 'package:textomize/modules/features/home/navbar/account_view.dart';
 import 'package:textomize/modules/features/home/navbar/home_view.dart';
-import 'package:textomize/modules/features/home/navbar/premium/premium_view.dart';
-import 'files_view.dart';
+import 'package:textomize/modules/features/home/navbar/smart_ai/smart_ai.dart';
+import 'package:textomize/widgets/home_appbar.dart';
+import 'package:textomize/modules/features/home/navbar/mydoc/mydoc_view.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import '../../../../core/assets.dart';
 
 class NavBarNavigation extends StatefulWidget {
   @override
@@ -14,59 +15,76 @@ class NavBarNavigation extends StatefulWidget {
 
 class _NavBarNavigationState extends State<NavBarNavigation> {
   int _currentIndex = 0;
+  DateTime? _lastPressedTime;
 
   final List<Widget> _pages = [
     HomeView(),
-    RecentFilesSection(recentFiles: recentFiles),
-    // FilesView(),
-    PremiumView(),
-    AccountView(),
+    MyDocView(),
+    SmartAiView(),
+    SettingsView(),
+    // home
+    // mydoc
+    // smart ai
+    //settings
   ];
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (_currentIndex != 0) {
-          setState(() {
-            _currentIndex = 0; // Navigate to Home tab
-          });
-          return false; // Prevent exiting the app
+        final now = DateTime.now();
+        if (_lastPressedTime == null ||
+            now.difference(_lastPressedTime!) > Duration(seconds: 2)) {
+          _lastPressedTime = now;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Press back again to exit"),
+            duration: Duration(seconds: 2),
+          ));
+          return false;
         }
-        return false; // Stay on Home and prevent back press
+        SystemNavigator.pop(); // Close the app
+        return true;
       },
       child: Scaffold(
-        extendBody: true, // Make the bottom nav bar floating
+        extendBody: true,
         appBar: _currentIndex == 0
             ? AppBar(
-                title: HomeAppBar(),
+                title: HomeAppBar(userName: 'Nufyll Abassi'),
                 automaticallyImplyLeading: false,
                 elevation: 0,
                 backgroundColor: Colors.transparent,
               )
             : null,
-        body: SafeArea(
-          child: _pages[_currentIndex],
-        ),
-        bottomNavigationBar: CurvedNavigationBar(
-          index: _currentIndex,
-          height: 60,
-          backgroundColor: Colors.transparent, 
-          color: AppColors.primaryColor,
-          buttonBackgroundColor: AppColors.primaryColor,
-          animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 300),
-          items: [
-            Icon(Icons.home, size: 30, color: Colors.white),
-            Icon(Icons.folder, size: 30, color: Colors.white),
-            Icon(Icons.star, size: 30, color: Colors.white),
-            Icon(Icons.account_circle, size: 30, color: Colors.white),
-          ],
+        body: SafeArea(child: _pages[_currentIndex]),
+        bottomNavigationBar: SalomonBottomBar(
+          currentIndex: _currentIndex,
           onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
+            setState(() => _currentIndex = index);
           },
+          selectedItemColor: AppColors.primaryColor,
+          unselectedItemColor: Colors.grey,
+          items: [
+            SalomonBottomBarItem(
+              icon: SvgPicture.asset(Assets.home, height: 24, color: _currentIndex == 0 ? AppColors.primaryColor : Colors.grey),
+              title: Text("Home"),
+              selectedColor: AppColors.primaryColor,
+            ),
+            SalomonBottomBarItem(
+              icon: SvgPicture.asset(Assets.ocr, height: 24, color: _currentIndex == 1 ? AppColors.primaryColor : Colors.grey),
+              title: Text("MyDoc"),
+              selectedColor: AppColors.primaryColor,
+            ),
+            SalomonBottomBarItem(
+              icon: SvgPicture.asset(Assets.network, height: 24, color: _currentIndex == 2 ? AppColors.primaryColor : Colors.grey),
+              title: Text("Smart Ai"),
+              selectedColor: AppColors.primaryColor,
+            ),
+            SalomonBottomBarItem(
+              icon: SvgPicture.asset(Assets.settings, height: 24, color: _currentIndex == 3 ? AppColors.primaryColor : Colors.grey),
+              title: Text("Settings"),
+              selectedColor: AppColors.primaryColor,
+            ),
+          ],
         ),
       ),
     );

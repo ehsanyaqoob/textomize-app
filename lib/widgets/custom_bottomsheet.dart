@@ -50,7 +50,7 @@ class TextomizeBottomSheet extends StatelessWidget {
                     ),
                     color: AppColors.primaryColor,
                   ),
-                  child: simplifyText(
+                  child: CustomText(
                     text: title,
                     textAlign: TextAlign.center,
                     fontSize: 24,

@@ -1,20 +1,18 @@
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:textomize/core/exports.dart';
+import 'package:textomize/modules/features/auth/signIn_view.dart';
 import 'package:textomize/screens/help_support.dart';
 import 'package:textomize/screens/notify_view.dart';
 import 'dart:io';
+import '../../../../core/storage_services.dart';
 
-import 'package:textomize/screens/settings_view.dart';
-
-class AccountView extends StatefulWidget {
-  const AccountView({super.key});
+class SettingsView extends StatefulWidget {
+  const SettingsView({super.key});
 
   @override
-  State<AccountView> createState() => _AccountViewState();
+  State<SettingsView> createState() => _SettingsViewState();
 }
 
-class _AccountViewState extends State<AccountView> {
+class _SettingsViewState extends State<SettingsView> {
   File? _image;
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _nameController =
@@ -37,104 +35,119 @@ class _AccountViewState extends State<AccountView> {
     );
   }
 
+  final List<Map<String, dynamic>> accountOptions = [
+    {
+      'icon': Icons.notifications,
+      'title': 'Notifications',
+      'onTap': () {
+       Get.to(NotificationsView());
+      },
+    },
+    {
+      'icon': Icons.help,
+      'title': 'Help & Support',
+      'onTap': () {
+       Get.to(HelpSupportView());
+      },
+    },
+    {
+      'icon': Icons.logout,
+      'title': 'Sign Out',
+      'onTap': () {
+        StorageService.logOut();
+        Get.offAll(SignInView());
+      },
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Profile Section
-              Align(
-                alignment: Alignment.center,
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 60.r,
-                      backgroundImage: _image != null
-                          ? FileImage(_image!)
-                          : AssetImage('assets/png/Ellipse.png')
-                              as ImageProvider,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: _pickImage,
-                        child: CircleAvatar(
-                          radius: 15.r,
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.camera_alt,
-                              size: 18.sp, color: Colors.blue),
-                        ),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        child: Column(
+          children: [
+            // Profile Avatar
+            Center(
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 55.r,
+                    backgroundImage: _image != null
+                        ? FileImage(_image!)
+                        : AssetImage('assets/png/Ellipse.png') as ImageProvider,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: _pickImage,
+                      child: CircleAvatar(
+                        radius: 18.r,
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.camera_alt,
+                            size: 18.sp, color: Colors.blue),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
+            SizedBox(height: 20.h),
 
-              SizedBox(
-                height: 20.h,
-              ),
+            // Name Field
+            CustomTextFormField(
+              controller: _nameController,
+              hint: 'Enter name',
+              prefix: Icon(Icons.person),
+            ),
+            SizedBox(height: 16.h),
 
-              SimplifyTextFormField(
-                controller: _nameController,
-                hint: 'enter name',
-                prefix: Icon(Icons.person),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              SimplifyTextFormField(
-                controller: _emailController,
-                hint: 'enter email',
-                prefix: Icon(Icons.email),
-              ),
-              SizedBox(height: 24.h),
+            // Email Field
+            CustomTextFormField(
+              controller: _emailController,
+              hint: 'Enter email',
+              prefix: Icon(Icons.email),
+            ),
+            SizedBox(height: 24.h),
 
-              MasonryGridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                mainAxisSpacing: 16.h,
-                crossAxisSpacing: 16.w,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: accountOptions.length,
-                itemBuilder: (context, index) {
-                  final option = accountOptions[index];
-                  return _PinterestCard(
-                    icon: option['icon'],
-                    title: option['title'],
-                    onTap: () =>
-                        option['onTap'](), 
-                  );
-                },
-              ),
+            // Settings Tiles
+            ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: accountOptions.length,
+              separatorBuilder: (_, __) => SizedBox(height: 12.h),
+              itemBuilder: (context, index) {
+                final option = accountOptions[index];
+                return _SettingsTile(
+                  icon: option['icon'],
+                  title: option['title'],
+                  onTap: () => option['onTap'](),
+                );
+              },
+            ),
 
-              SizedBox(height: 24.h),
-              SimplifyButton(
-                onTap: _saveProfile,
-                title: "Save Profile",
-                fillColor: true,
-              ),
-              SizedBox(height: 24.h),
-            ],
-          ),
+            SizedBox(height: 24.h),
+
+            SimplifyButton(
+              onTap: _saveProfile,
+              title: "Save Profile",
+              fillColor: true,
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-// Pinterest Card for Options
-class _PinterestCard extends StatelessWidget {
+class _SettingsTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final VoidCallback onTap;
 
-  const _PinterestCard({
-    super.key,
+  const _SettingsTile({
     required this.icon,
     required this.title,
     required this.onTap,
@@ -142,57 +155,34 @@ class _PinterestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 6,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: Colors.blue, size: 28.sp),
-            SizedBox(height: 12.h),
-            Text(title,
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
-          ],
+    return Material(
+      elevation: 2,
+      borderRadius: BorderRadius.circular(12.r),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12.r),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, color: Colors.blue, size: 24.sp),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: CustomText(
+                  text: title,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Icon(Icons.chevron_right, color: Colors.grey.shade400),
+            ],
+          ),
         ),
       ),
     );
   }
-}final List<Map<String, dynamic>> accountOptions = [
-  {
-    'icon': Icons.settings,
-    'title': "Settings",
-    'onTap': () {
-      print("Navigating to Settings");
-      Get.to(() => SettingsView());
-    }
-  },
-  {
-    'icon': Icons.notifications,
-    'title': "Notifications",
-    'onTap': () {
-      print("Navigating to Notifications");
-      Get.to(() => NotificationsView());
-    }
-  },
-  {
-    'icon': Icons.help_outline,
-    'title': "Help & Support",
-    'onTap': () {
-      print("Navigating to Help & Support");
-      Get.to(() => HelpSupportView());
-    }
-  },
-  {'icon': Icons.exit_to_app, 'title': "Logout", 'onTap': () => print("Logout pressed")},
-];
+}
