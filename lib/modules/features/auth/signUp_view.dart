@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:textomize/core/exports.dart';
 import '../../../controllers/signUp_con.dart';
 import 'signIn_view.dart';
@@ -15,126 +16,159 @@ class _SignUpViewState extends State<SignUpView> {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackgroundColor,
       appBar: CustomAppBar(
-        title: "Sign Up",
+        title: "Create Account",
         centerTitle: true,
-        onLeadingPressed: () {
-          Get.back();
-        },
+        onLeadingPressed: () => Get.back(),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              simplifyText(
-                textAlign: TextAlign.center,
-                text: "Please fill in the details to create your account.",
-                fontSize: 16.sp,
-                color: AppColors.greyColor,
+              Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: "Welcome! ",
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryColor,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Please enter your information below to sign up.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: AppColors.greyColor,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              SizedBox(height: 20.h),
-              // Name Field
-              SimplifyTextFormField(
+              /// Name
+              CustomTextFormField(
                 controller: signUpController.nameController,
                 hint: "Full Name",
                 title: 'Full Name',
                 inputType: TextInputType.name,
-                prefix: Icon(Icons.person),
+                prefix: Icon(Icons.person_outline),
               ),
-              SizedBox(height: 20),
-              // Email Field
-              SimplifyTextFormField(
+
+              /// Email
+              CustomTextFormField(
                 controller: signUpController.emailController,
-                hint: "Email",
+                hint: "Email Address",
                 title: 'Email',
                 inputType: TextInputType.emailAddress,
-                prefix: Icon(Icons.email),
+                prefix: Icon(Icons.email_outlined),
               ),
-              SizedBox(height: 20),
-              // Phone Field
-              SimplifyTextFormField(
+
+              /// Phone
+              CustomTextFormField(
                 controller: signUpController.phoneNumberController,
                 hint: "Phone Number",
-                title: 'Phone Number',
+                title: 'Phone',
                 inputType: TextInputType.phone,
-                prefix: Icon(Icons.phone),
+                prefix: Icon(Icons.phone_outlined),
               ),
-              SizedBox(height: 20),
-              Obx(
-                () => SimplifyTextFormField(
-                  controller: signUpController.passwordController,
-                  hint: "Password",
-                  title: 'Password',
-                  isObscure: !signUpController.isPasswordVisible.value,
-                  prefix: Icon(Icons.lock),
-                  suffix: IconButton(
-                    icon: Icon(
-                      signUpController.isPasswordVisible.value
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: AppColors.greyColor,
-                      size: 25,
+
+              /// Password
+              Obx(() => CustomTextFormField(
+                    controller: signUpController.passwordController,
+                    hint: "Create Password",
+                    title: 'Password',
+                    isObscure: !signUpController.isPasswordVisible.value,
+                    prefix: Icon(Icons.lock_outline),
+                    suffix: IconButton(
+                      icon: Icon(
+                        signUpController.isPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppColors.greyColor,
+                      ),
+                      onPressed: () => signUpController.isPasswordVisible.value =
+                          !signUpController.isPasswordVisible.value,
                     ),
-                    onPressed: () {
-                      signUpController.isPasswordVisible.value =
-                          !signUpController.isPasswordVisible.value;
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              // Terms and Conditions Checkbox
-              Obx(
-                () => Row(
-                  children: [
-                    CustomCheckbox(
-                      value: signUpController.termsAccepted.value,
-                      onChanged: (bool newValue) {
-                        signUpController.termsAccepted.value = newValue;
-                      },
-                      activeColor: AppColors.primaryColor,
-                      checkColor: AppColors.white,
-                      size: 32.0,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    SizedBox(width: 10.w),
-                    simplifyText(
-                      text: "I accept the terms & conditions",
-                      fontSize: 14.sp,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30),
-              // Sign Up Button
-              Obx(
-                () => SimplifyButton(
-                  title: signUpController.isLoading.value ? "Signing Up..." : "Sign Up",
-                  onTap: signUpController.isLoading.value
-                      ? null
-                      : () {
-                          signUpController.signUp();
-                        },
-                ),
-              ),
-              SizedBox(height: 20),
+                  )),
+              SizedBox(height: 16.h),
+
+              /// Terms Checkbox
+              Obx(() => Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CustomCheckbox(
+                        value: signUpController.termsAccepted.value,
+                        onChanged: (bool value) =>
+                            signUpController.termsAccepted.value = value,
+                        activeColor: AppColors.primaryColor,
+                        checkColor: Colors.white,
+                        size: 30.0,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            text: "I agree to the ",
+                            style: TextStyle(
+                                color: AppColors.greyColor, fontSize: 14.sp),
+                            children: [
+                              TextSpan(
+                                text: "Terms & Conditions",
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              TextSpan(text: " and "),
+                              TextSpan(
+                                text: "Privacy Policy",
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+              SizedBox(height: 30.h),
+
+              /// Sign Up Button
+              Obx(() => SimplifyButton(
+                    title: signUpController.isLoading.value
+                        ? "Creating Account..."
+                        : "Create Account",
+                    onTap: signUpController.isLoading.value
+                        ? null
+                        : () => signUpController.signUp(),
+                  )),
+              SizedBox(height: 25.h),
+
+              /// Divider
               Row(
                 children: [
                   Expanded(child: Divider(color: AppColors.greyColor)),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                     child: Text(
-                      "or continue with",
+                      "or sign up with",
                       style:
-                          TextStyle(fontSize: 14, color: AppColors.greyColor),
+                          TextStyle(fontSize: 14.sp, color: AppColors.greyColor),
                     ),
                   ),
                   Expanded(child: Divider(color: AppColors.greyColor)),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
+
+              /// Social Icons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -143,25 +177,30 @@ class _SignUpViewState extends State<SignUpView> {
                   SocialIconButton(assetPath: 'assets/png/facebook.png'),
                 ],
               ),
-              SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  simplifyText(
+              SizedBox(height: 30.h),
+
+              /// Already have account
+              Center(
+                child: RichText(
+                  text: TextSpan(
                     text: "Already have an account? ",
-                    fontSize: 14,
-                    color: AppColors.greyColor,
-                  ),
-                  GestureDetector(
-                    onTap: () => Get.to(SignInView()),
-                    child: simplifyText(
-                      text: "Sign In",
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
+                    style: TextStyle(
+                      color: AppColors.greyColor,
+                      fontSize: 14.sp,
                     ),
+                    children: [
+                      TextSpan(
+                        text: "Sign In",
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Get.to(SignInView()),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),

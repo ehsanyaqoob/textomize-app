@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:textomize/modules/features/profile/profile_view.dart';
+import 'package:textomize/core/exports.dart';
+import 'package:textomize/modules/features/auth/signIn_view.dart';
+
 
 class Boarding extends StatefulWidget {
-  const Boarding({Key? key}) : super(key: key);
+  const Boarding({super.key});
 
   @override
   State<Boarding> createState() => _BoardingState();
@@ -13,196 +13,186 @@ class Boarding extends StatefulWidget {
 
 class _BoardingState extends State<Boarding> {
   final PageController _controller = PageController();
-  bool onLastPage = false;
+  final List<OnboardItem> _pages = [
+    OnboardItem(
+      image: 'assets/png/women.jpg',
+      title: 'Scan Anything, Anytime',
+      subtitle:
+          'Our advanced OCR technology lets you scan and extract text from documents, images, and more, instantly and accurately.',
+    ),
+    OnboardItem(
+      image: 'assets/png/women.jpg',
+      title: 'Your Documents, Digitized',
+      subtitle:
+          'Transform physical documents into editable, searchable digital files with just a snap of your camera.',
+    ),
+    OnboardItem(
+      image: 'assets/png/women.jpg',
+      title: 'Speed and Accuracy Combined',
+      subtitle:
+          'Our OCR technology processes text quickly and accurately, saving you time while ensuring precision.',
+    ),
+    OnboardItem(
+      image: 'assets/png/women.jpg',
+      title: 'Scan Multiple Languages',
+      subtitle:
+          'Whether it’s English, Spanish, Arabic, or more, our OCR system can recognize and process text in a variety of languages.',
+    ),
+    OnboardItem(
+      image: 'assets/png/women.jpg',
+      title: 'Intelligent Text Extraction',
+      subtitle:
+          'Automatically extract relevant information, like dates, addresses, and names, from your scanned documents.',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 50),
-
-          // PageView
-          Expanded(
-            child: PageView(
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime? lastPressed;
+        if (lastPressed == null || DateTime.now().difference(lastPressed) > const Duration(seconds: 2)) {
+          lastPressed = DateTime.now();
+          Get.snackbar(
+            'Exit',
+            'Press back again to exit',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.black54,
+            colorText: Colors.white,
+            margin: const EdgeInsets.symmetric(vertical: 20),
+            snackStyle: SnackStyle.FLOATING,
+          );
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            PageView.builder(
               controller: _controller,
-              onPageChanged: (index) {
-                setState(() {
-                  onLastPage = (index == 2);
-                });
+              itemCount: _pages.length,
+              itemBuilder: (context, index) {
+                return OnboardPage(item: _pages[index]);
               },
-              children: [
-                _buildPage(
-                  image: 'assets/svg/scanimage.svg',
-                  title: 'Edit & Customize Scan Results',
-                  description:
-                      'Easily modify and enhance scanned documents with our powerful editing tools.',
+            ),
+
+            /// 🔹 Skip
+            Positioned(
+              top: 40,
+              right: 24,
+              child: GestureDetector(
+                onTap: () {
+                  _controller.jumpToPage(_pages.length - 1);
+                },
+                child: InkWell(
+                  onTap: () {
+                    Get.to(() => SignInView());
+                  },
+                  child: CustomText(
+                    text: "Skip",
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-                _buildPage(
-                  image: 'assets/svg/doc.svg',
-                  title: 'Effortlessly Scan Your Documents',
-                  description:
-                      'Scan, save, and share documents instantly with a seamless experience.',
+              ),
+            ),
+
+            /// 🔹 Page Indicator
+            Positioned(
+              bottom: 30,
+              left: 24,
+              child: SmoothPageIndicator(
+                controller: _controller,
+                count: _pages.length,
+                effect: ExpandingDotsEffect(
+                  activeDotColor: Colors.white,
+                  dotColor: Colors.white30,
+                  dotHeight: 10,
+                  dotWidth: 18,
+                  spacing: 8,
                 ),
-                _buildPage(
-                  image: 'assets/svg/orgfiles.svg',
-                  title: 'Organize Your Digital Files Seamlessly',
-                  description:
-                      'Keep all your documents structured and easily accessible in one place.',
-                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class OnboardItem {
+  final String image;
+  final String title;
+  final String subtitle;
+
+  OnboardItem({
+    required this.image,
+    required this.title,
+    required this.subtitle,
+  });
+}
+
+class OnboardPage extends StatelessWidget {
+  final OnboardItem item;
+
+  const OnboardPage({super.key, required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        /// 🔹 Background Image
+        Image.asset(
+          item.image,
+          fit: BoxFit.cover,
+        ),
+
+        /// 🔹 Gradient Overlay
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.center,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.transparent,
+                Colors.black.withOpacity(0.7),
               ],
             ),
           ),
+        ),
 
-          // Page Indicator
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        /// 🔹 Text Content
+        Positioned(
+          bottom: 80,
+          left: 24,
+          right: 24,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SmoothPageIndicator(
-                controller: _controller,
-                count: 3,
-                effect: ExpandingDotsEffect(
-                  activeDotColor: Colors.blue,
-                  dotColor: Colors.grey.shade400,
-                  dotHeight: 10,
-                  dotWidth: 10,
-                  spacing: 8,
+              Text(
+                item.title,
+                style: TextStyle(
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                item.subtitle,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.white70,
                 ),
               ),
             ],
           ),
-
-          const SizedBox(height: 20),
-
-          // Buttons Row
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Skip Button
-                TextButton(
-                  onPressed: () {
-                    _controller.jumpToPage(2);
-                  },
-                  child: Text(
-                    'Skip',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey.shade700,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-
-                // Next / Finish Button
-                ElevatedButton(
-                  onPressed: () {
-                    if (onLastPage) {
-                      Get.to(ProfileView()); // Navigate after last page
-                    } else {
-                      _controller.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 24,
-                    ),
-                    elevation: 3,
-                  ),
-                  child: Text(
-                    onLastPage ? 'Finish' : 'Next',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 30),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPage({
-    required String image, // Pass image path
-    required String title,
-    required String description,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Container(
-                height: 400,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(60),
-                    topRight: Radius.circular(60),
-                    bottomLeft: Radius.circular(150),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      blurRadius: 10,
-                      spreadRadius: 3,
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(60),
-                    topRight: Radius.circular(60),
-                    bottomLeft: Radius.circular(150),
-                  ),
-                  child: SvgPicture.asset(
-                    image, // Corrected this part
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey.shade600,
-            ),
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

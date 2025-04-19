@@ -33,7 +33,7 @@ class SimplifyButton extends StatelessWidget {
                 : Colors.white,
           ),
           child: Center(
-            child: simplifyText(
+            child: CustomText(
               text: title,
               textAlign: TextAlign.center,
               color: fillColor ? AppColors.white : AppColors.primaryColor,

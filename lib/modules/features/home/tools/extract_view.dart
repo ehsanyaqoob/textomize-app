@@ -19,7 +19,7 @@ class _ExtractTextViewState extends State<ExtractTextView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            simplifyText(
+            CustomText(
               text: ' Extract Text from Image or PDF',
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -43,10 +43,10 @@ class _ExtractTextViewState extends State<ExtractTextView> {
               ),
             ),
             SizedBox(height: 30.0),
-            simplifyText(
+            CustomText(
               text: ' Extract text from an image or PDF document.',
               fontSize: 16.0,
-              color: Colors.grey[600],
+                           color: AppColors.greyColor,
             ),
             SizedBox(height: 30.0),
             SimplifyButton(
@@ -57,10 +57,10 @@ class _ExtractTextViewState extends State<ExtractTextView> {
               fillColor: true,
             ),
             SizedBox(height: 25.0),
-            simplifyText(
+            CustomText(
               text: ' OR  ',
               fontSize: 14.0,
-              color: Colors.grey[600],
+                           color: AppColors.greyColor,
             ),
             SizedBox(height: 20.0),
             Row(
@@ -72,10 +72,10 @@ class _ExtractTextViewState extends State<ExtractTextView> {
                   color: Colors.grey[600],
                 ),
                 SizedBox(width: 5.0),
-                simplifyText(
+                CustomText(
                   text: 'Select Page Ranges',
                   fontSize: 14.0,
-                  color: Colors.grey[600],
+                           color: AppColors.greyColor,
                 ),
               ],
             ),

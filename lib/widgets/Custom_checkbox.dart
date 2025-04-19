@@ -14,7 +14,7 @@ class CustomCheckbox extends StatefulWidget {
     required this.onChanged,
     this.activeColor = AppColors.primaryColor,
     this.checkColor = Colors.white,
-    this.size = 24.0,
+    this.size = 20.0,
     this.borderRadius,
   }) : super(key: key);
 

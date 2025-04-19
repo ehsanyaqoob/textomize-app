@@ -12,14 +12,28 @@ export '../widgets/custom_appbar.dart';
 export '../widgets/custom_button.dart';
 export '../widgets/custom_dialog_box.dart';
 export '../widgets/custom_generic_button.dart';
-export '../widgets/simplifyText.dart';
+export '../widgets/custom_text_widgets.dart';
 export '../widgets/simplifyLoader.dart';
-export '../widgets/simplifyFormField.dart';
 export 'package:get/get.dart';
 // External Libraries 
+
 export  'package:flutter_screenutil/flutter_screenutil.dart';
 export '../../controllers/controllers.dart';
 export '../../widgets/simplifyButton.dart';
+export 'package:textomize/widgets/sizer.dart';
+
+
+export 'package:flutter/material.dart';
+export 'package:get/get.dart';
+export 'package:image_picker/image_picker.dart';
+export 'package:path_provider/path_provider.dart';
+export 'package:flutter/services.dart';
+export 'package:share_plus/share_plus.dart';
+export 'package:textomize/App/app_colors.dart';
+export 'package:textomize/controllers/ocr_controller.dart';
+export 'package:textomize/widgets/custom_appbar.dart';
+
+
 /// MVC Structure for Simplify App
 /// 
 // lib/

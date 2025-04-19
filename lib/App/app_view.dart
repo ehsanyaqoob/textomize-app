@@ -1,7 +1,8 @@
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:textomize/core/exports.dart';
-import '../core/storage_services.dart';
+import 'package:textomize/core/storage_services.dart';
 import '../modules/splash/splash_view.dart';
-import '../modules/features/home/navbar/NavBar.dart';
 
 class AppView extends StatefulWidget {
   const AppView({super.key});
@@ -20,18 +21,14 @@ class _AppViewState extends State<AppView> {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             scaffoldBackgroundColor: AppColors.white,
-            appBarTheme: AppBarTheme(
-              backgroundColor: AppColors.white,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: AppColors.primaryColor,
             ),
           ),
           title: 'Textomize',
-          home: _getInitialScreen(), // Decide initial screen
+          home: const SplashScreen(), 
         );
       },
     );
-  }
-
-  Widget _getInitialScreen() {
-    return StorageService.isLoggedIn() ? NavBarNavigation() : SplashScreen();
   }
 }

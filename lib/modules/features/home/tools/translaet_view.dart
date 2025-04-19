@@ -2,7 +2,7 @@ import 'package:textomize/controllers/scan_con.dart';
 import 'package:textomize/core/exports.dart';
 
 class TranslateTextView extends StatelessWidget {
-  final TranslateTextController controller = Get.put(TranslateTextController());
+  // final TranslateTextController controller = Get.put(TranslateTextController());
 
   @override
   Widget build(BuildContext context) {
@@ -14,27 +14,22 @@ class TranslateTextView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20.0),
-
-              // Heading
-              simplifyText(
+               SizedBox(height: 20.0.h),
+              CustomText(
+                textAlign: TextAlign.center,
                 text: 'Translate Text to your preferred language',
-                fontSize: 24.0,
+                fontSize: 18.0.sp,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,
-              ),
-
-              const SizedBox(height: 20.0),
-
-              // Translation Card
+              ), SizedBox(height: 20.0.h),
               Center(
                 child: Container(
                   width: double.infinity,
-                  height: 250.0,
+                  height: 250.0.h,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -60,57 +55,51 @@ class TranslateTextView extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.edit_document, size: 100.0, color: Colors.green),
-                      const SizedBox(height: 10),
-                      simplifyText(
+                       Icon(Icons.edit_document, size: 100.0, color: Colors.green),
+                       SizedBox(height: 10.h),
+                      CustomText(
                         text: "Ready to translate?",
-                        fontSize: 18.0,
+                        fontSize: 18.0.sp,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green[700],
+                           color: AppColors.greyColor,
                       ),
                     ],
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 30.0),
+              ), SizedBox(height: 30.0.h),
 
               // Subheading
-              simplifyText(
+              CustomText(
                 text: 'Choose one of the options below to continue.',
-                fontSize: 16.0,
-                color: Colors.grey[700],
-              ),
-
-              const SizedBox(height: 20.0),
+                fontSize: 16.0.sp,
+                           color: AppColors.greyColor,
+              ), SizedBox(height: 20.0.h),
 
               // Buttons
               SimplifyButton(
                 title: 'Open Camera',
                 topMargin: 10.0,
                 fillColor: true,
-                onTap: controller.openCamera,
+              //  onTap: controller.openCamera,
               ),
 
-              const SizedBox(height: 15.0),
+               SizedBox(height: 15.0.h),
 
               SimplifyButton(
                 title: 'Pick PDF from Gallery',
-                topMargin: 10.0,
+                topMargin: 10.0.sp,
                 fillColor: true,
-                onTap: controller.pickGalleryImage, 
+               // onTap: controller.pickGalleryImage, 
               ),
 
-              const SizedBox(height: 40.0),
-
-              // Security Notice
+               SizedBox(height: 40.0.h),
               Center(
                 child: Column(
                   children: [
-                    simplifyText(
+                    CustomText(
                       text: 'Your documents are secure.',
-                      fontSize: 14.0,
-                      color: Colors.grey[500],
+                      fontSize: 14.0.sp,
+                           color: AppColors.greyColor,
                     ),
                     const SizedBox(height: 5),
                     Icon(Icons.lock_rounded, size: 20.0, color: Colors.grey[500]),

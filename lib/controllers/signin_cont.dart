@@ -1,4 +1,6 @@
+
 import 'package:textomize/core/exports.dart';
+import '../core/storage_services.dart';
 import '../modules/features/home/navbar/NavBar.dart';
 
 class SignInController extends GetxController {
@@ -8,7 +10,7 @@ class SignInController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool rememberMe = false.obs;
 
-  void signIn() {
+  void signIn() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
@@ -42,14 +44,22 @@ class SignInController extends GetxController {
     isLoading.value = true;
 
     // Simulate API Call
-    Future.delayed(Duration(seconds: 2), () {
+    await Future.delayed(Duration(seconds: 2), () async {
       isLoading.value = false;
+
+      // If login is successful, store the user session and their preference (rememberMe)
+      if (rememberMe.value) {
+        // Save login status if 'Remember Me' is checked
+        await StorageService.setLoggedIn(true);
+      }
+
       Get.snackbar(
         'Success',
         'You have successfully signed in!',
         snackPosition: SnackPosition.TOP,
       );
 
+      // Navigate to the NavBar screen
       Get.to(() => NavBarNavigation());
     });
   }

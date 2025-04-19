@@ -21,7 +21,7 @@ dependencies:
   shimmer: ^3.0.0
   image_picker: ^1.1.2
   flutter_staggered_grid_view: ^0.7.0
-  pdfx: ^2.8.0
+  # pdfx: 2.8.1
   camera: ^0.11.0+2
   path_provider: ^2.1.5
   shared_preferences: ^2.5.1
@@ -31,6 +31,18 @@ dependencies:
   image_cropper: 9.0.0
   google_mlkit_text_recognition: ^0.13.0
   translator: ^1.0.3+1
+  google_ml_kit: ^0.18.1
+  share_plus: ^10.1.4
+  salomon_bottom_bar: ^3.3.2
+
+  permission_handler: ^11.3.0
+  pdf: ^3.11.3
+  docx_template: ^0.4.0
+  open_file: ^3.3.2
+  dotted_border: ^2.1.0
+  intl: ^0.20.2
+  # qr_code_scanner: ^1.0.1
+  
   
 dev_dependencies:
   flutter_test:
@@ -43,6 +55,9 @@ flutter:
     - assets/
     - assets/svg/
     - assets/png/
+    - assets/template.docx
+    
+
     - assets/png/LogoWhite.png
 
   fonts:
@@ -51,3 +66,7 @@ flutter:
         - asset: assets/fonts/Poppins/Poppins-Regular.ttf
         - asset: assets/fonts/Poppins/Poppins-Bold.ttf
         - asset: assets/fonts/Poppins/Poppins-Medium.ttf
+    - family: BalsamiqSans
+      fonts:
+        - asset: assets/fonts/BalsamiqSans-Regular.ttf
+        - asset: assets/fonts/BalsamiqSans-Bold.ttf

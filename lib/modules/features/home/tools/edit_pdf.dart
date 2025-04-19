@@ -19,7 +19,7 @@ class _EditPDFViewState extends State<EditPDFView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            simplifyText(
+            CustomText(
               text: 'Edit your PDF files with ease',
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -42,10 +42,10 @@ class _EditPDFViewState extends State<EditPDFView> {
               ),
             ),
             SizedBox(height: 30.0),
-            simplifyText(
+            CustomText(
               text: 'Upload your PDF to start editing.',
               fontSize: 16.0,
-              color: Colors.grey[600],
+              color: AppColors.greyColor,
             ),
             SizedBox(height: 30.0),
             SimplifyButton(
@@ -56,10 +56,11 @@ class _EditPDFViewState extends State<EditPDFView> {
               fillColor: true,
             ),
             SizedBox(height: 25.0),
-            simplifyText(
+            CustomText(
               text: 'Make changes such as text editing, adding annotations, and more.',
               fontSize: 14.0,
-              color: Colors.grey[600],
+                           color: AppColors.greyColor,
+
             ),
             SizedBox(height: 20.0),
             Row(
@@ -71,10 +72,10 @@ class _EditPDFViewState extends State<EditPDFView> {
                   color: Colors.grey[600],
                 ),
                 SizedBox(width: 5.0),
-                simplifyText(
+                CustomText(
                   text: 'Text Editing',
                   fontSize: 14.0,
-                  color: Colors.grey[600],
+                           color: AppColors.greyColor,
                 ),
               ],
             ),
@@ -88,10 +89,10 @@ class _EditPDFViewState extends State<EditPDFView> {
                   color: Colors.grey[600],
                 ),
                 SizedBox(width: 5.0),
-                simplifyText(
+                CustomText(
                   text: 'Add Annotations',
                   fontSize: 14.0,
-                  color: Colors.grey[600],
+                           color: AppColors.greyColor,
                 ),
               ],
             ),

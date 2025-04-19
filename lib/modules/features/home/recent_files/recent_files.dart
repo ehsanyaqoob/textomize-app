@@ -61,24 +61,23 @@ class _RecentFilesSectionState extends State<RecentFilesSection> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          simplifyText(
+                          CustomText(
                             text: widget.recentFiles[index]['title']!,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
                             color: Colors.black87,
-                            maxlines: 1,
                           ),
                           SizedBox(height: 4.0),
                           Row(
                             children: [
-                              simplifyText(
+                              CustomText(
                             text:     widget.recentFiles[index]['date']!,
                                   fontSize: 14.0,
                                   color: Colors.grey,
                                 
                               ),
                               SizedBox(width: 10.0),
-                              simplifyText(
+                              CustomText(
                              text:    widget.recentFiles[index]['time']!,
                                   fontSize: 14.0,
                                   color: Colors.grey,
@@ -97,7 +96,7 @@ class _RecentFilesSectionState extends State<RecentFilesSection> {
                           onPressed: () {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: simplifyText(
+                                content: CustomText(
                                  text:  'Sharing ${widget.recentFiles[index]['title']}',
                                 ),
                               ),
@@ -107,11 +106,11 @@ class _RecentFilesSectionState extends State<RecentFilesSection> {
                         PopupMenuButton(
                           itemBuilder: (context) => [
                             PopupMenuItem(
-                              child: simplifyText( text: "Open"),
+                              child: CustomText( text: "Open"),
                               value: "open",
                             ),
                             PopupMenuItem(
-                              child: simplifyText( text: "Delete"),
+                              child: CustomText( text: "Delete"),
                               value: "delete",
                             ),
                           ],
@@ -123,7 +122,7 @@ class _RecentFilesSectionState extends State<RecentFilesSection> {
                             if (value == "delete") {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: simplifyText(
+                                  content: CustomText(
                                text:      '${widget.recentFiles[index]['title']} deleted.',
                                   ),
                                 ),

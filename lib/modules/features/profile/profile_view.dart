@@ -169,13 +169,13 @@ class _ProfileViewState extends State<ProfileView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        simplifyText(
+        CustomText(
           text: 'Complete your profile',
           fontSize: 22.sp,
           fontWeight: FontWeight.bold,
         ),
         SizedBox(height: 8.h),
-        simplifyText(
+        CustomText(
           text: 'Only you can see your personal data.',
           fontSize: 14.sp,
           color: Colors.grey,
@@ -185,7 +185,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget _buildNameField() {
-    return SimplifyTextFormField(
+    return CustomTextFormField(
       controller: nameController,
       onChanged: profileController.updateName,
       title: 'Full Name',
@@ -194,7 +194,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget _buildPhoneField() {
-    return SimplifyTextFormField(
+    return CustomTextFormField(
       controller: phoneController,
       onChanged: profileController.updatePhone,
       inputType: TextInputType.phone,
@@ -234,7 +234,7 @@ class _ProfileViewState extends State<ProfileView> {
         }
       },
       child: AbsorbPointer(
-        child: SimplifyTextFormField(
+        child: CustomTextFormField(
           controller: dobController,
           title: 'Date of Birth',
           hint: 'MM/DD/YYYY',
